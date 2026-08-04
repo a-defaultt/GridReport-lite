@@ -1,3 +1,4 @@
+import http.client
 import ipaddress
 import os
 import re
@@ -92,7 +93,11 @@ def _get(url: str) -> bytes:
     try:
         with _opener.open(request, timeout=REQUEST_TIMEOUT) as response:
             data = response.read(MAX_RESPONSE_BYTES + 1)
-    except (OSError, ValueError) as exc:
+    # http.client.HTTPException (BadStatusLine, IncompleteRead, ...) is NOT an
+    # OSError: a server that answers with garbage instead of HTTP used to reach
+    # the user as a traceback. The remote end is untrusted, so its malformed
+    # responses have to be FetchErrors like every other fetch failure.
+    except (OSError, ValueError, http.client.HTTPException) as exc:
         raise FetchError(f"request to {url} failed: {exc}") from exc
     if len(data) > MAX_RESPONSE_BYTES:
         raise FetchError(f"response from {url} exceeded {MAX_RESPONSE_BYTES} bytes, aborting")

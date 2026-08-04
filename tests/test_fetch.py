@@ -216,3 +216,31 @@ def test_a_broken_stylesheet_href_skips_that_sheet_not_the_whole_scan(monkeypatc
     monkeypatch.setattr(fetch_module, "_get", fake_get)
     html, css_texts, _ = fetch_site("https://example.com/")
     assert css_texts == [".x{color:#004e42}"]
+
+
+# --- final branch review regression test ---
+
+def test_a_server_answering_with_garbage_is_a_fetcherror_not_a_traceback(monkeypatch):
+    """http.client.HTTPException is not an OSError, so it slipped _get's handler.
+
+    A server that answers with something that isn't HTTP raises BadStatusLine,
+    which reached the user as a traceback instead of 'Could not fetch <url>'.
+    """
+    import socketserver
+    import threading
+    from gridreport.fetch import _get
+
+    class NotAWebServer(socketserver.BaseRequestHandler):
+        def handle(self):
+            self.request.recv(4096)
+            self.request.sendall(b"NOT-HTTP AT ALL\r\n\r\n")
+
+    monkeypatch.setenv("GRIDREPORT_ALLOW_PRIVATE", "1")  # the test server is on loopback
+    server = socketserver.TCPServer(("127.0.0.1", 0), NotAWebServer)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    try:
+        with pytest.raises(FetchError, match="failed"):
+            _get(f"http://127.0.0.1:{server.server_address[1]}/")
+    finally:
+        server.shutdown()
+        server.server_close()
