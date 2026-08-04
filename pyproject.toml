@@ -1,0 +1,21 @@
+[project]
+name = "gridreport"
+version = "0.1.0"
+description = "Scan a site for brand identity, then render Markdown reports as branded PDFs"
+requires-python = ">=3.10"
+
+[project.scripts]
+gridreport = "gridreport.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["gridreport*"]
+
+[tool.setuptools.package-data]
+gridreport = ["themes/*.css"]
