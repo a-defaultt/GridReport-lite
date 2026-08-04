@@ -21,10 +21,22 @@ class FetchError(Exception):
     pass
 
 
+def _parse(url: str):
+    """urlparse, but a bad URL is a FetchError rather than a raw ValueError.
+
+    `http://[::1/` and friends raise out of urlsplit itself, which used to reach
+    the user as a traceback. Every caller in this module wants the same answer.
+    """
+    try:
+        return urllib.parse.urlparse(url)
+    except ValueError as exc:
+        raise FetchError(f"invalid URL {url!r}: {exc}") from exc
+
+
 def _same_origin(url: str, origin: str) -> bool:
     """Check if url has the same scheme and netloc as origin."""
-    parsed_url = urllib.parse.urlparse(url)
-    parsed_origin = urllib.parse.urlparse(origin)
+    parsed_url = _parse(url)
+    parsed_origin = _parse(origin)
     return (parsed_url.scheme, parsed_url.netloc) == (parsed_origin.scheme, parsed_origin.netloc)
 
 
@@ -35,7 +47,7 @@ def _check_url(url: str) -> None:
     scanned supplies the stylesheet and logo URLs we follow, so a 302 to
     169.254.169.254 would otherwise sail straight past the same-origin check.
     """
-    parsed = urllib.parse.urlparse(url)
+    parsed = _parse(url)
     if parsed.scheme not in ALLOWED_SCHEMES:
         raise FetchError(f"unsupported URL scheme {parsed.scheme!r} (only http/https allowed)")
     # require an explicit truthy value: plain get() would treat "0" as "bypass"
@@ -101,23 +113,25 @@ def find_stylesheet_urls(html: str, limit: int = 5) -> list[str]:
 def fetch_site(url: str) -> tuple[str, list[str], str]:
     """Fetch homepage HTML and same-origin linked CSS (one level deep, max 5 stylesheets)."""
     html = _get(url).decode("utf-8", errors="replace")
-    parsed = urllib.parse.urlparse(url)
+    parsed = _parse(url)
     base_origin = f"{parsed.scheme}://{parsed.netloc}"
 
     css_texts = []
     for css_url in find_stylesheet_urls(html):
-        absolute = urllib.parse.urljoin(url, css_url)
-        if not _same_origin(absolute, base_origin):
-            continue
+        # the page supplies these hrefs, so a broken or hostile one skips that
+        # stylesheet - it must not abort the whole scan (urljoin raises too)
         try:
+            absolute = urllib.parse.urljoin(url, css_url)
+            if not _same_origin(absolute, base_origin):
+                continue
             css_texts.append(_get(absolute).decode("utf-8", errors="replace"))
-        except FetchError:
+        except (FetchError, ValueError):
             continue
     return html, css_texts, base_origin
 
 
 def download_binary(url: str, allowed_origin: str) -> Path:
-    parsed = urllib.parse.urlparse(url)
+    parsed = _parse(url)
     if parsed.scheme not in ALLOWED_SCHEMES:
         raise FetchError(f"unsupported URL scheme {parsed.scheme!r} (only http/https allowed)")
     if not _same_origin(url, allowed_origin):

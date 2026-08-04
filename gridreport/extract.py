@@ -54,12 +54,17 @@ def extract_colors(texts: list[str], max_colors: int = 3) -> list[str]:
 def extract_logo_url(html: str) -> str | None:
     tags = list(iter_tags(html, "img", "link", "meta"))
 
-    for tag, attrs in tags:
-        if tag == "meta":
-            continue
-        for key, value in attrs.items():
-            if key.endswith(("src", "href")) and "logo" in value.lower():
-                return value
+    named = [
+        value
+        for tag, attrs in tags if tag != "meta"
+        for key, value in attrs.items()
+        if key.endswith(("src", "href")) and "logo" in value.lower()
+    ]
+    if named:
+        # prefer .svg over .png — it scales in PDF output. min() is stable, so
+        # among same-format candidates the first in document order still wins.
+        # substring, not suffix: real logo URLs carry query strings (?v=1644506438)
+        return min(named, key=lambda v: 0 if ".svg" in v.lower() else 1)
 
     for rel in ICON_RELS:
         for tag, attrs in tags:

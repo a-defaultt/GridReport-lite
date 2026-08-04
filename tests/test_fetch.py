@@ -184,3 +184,35 @@ def test_stylesheet_sampling_dedupes_before_applying_the_limit():
     sampled = find_stylesheet_urls(fixture)
     assert len(sampled) == 5
     assert len(set(sampled)) == 5, f"duplicates consumed the budget: {sampled}"
+
+
+# --- functional audit (task 10) regression tests ---
+
+@pytest.mark.parametrize("url", ["http://[::1/", "http://[not-an-ip]/", "https://[:::]/x.css"])
+def test_a_malformed_url_is_a_fetcherror_not_a_traceback(url):
+    # urlparse raises out of urlsplit on a bad IPv6 literal; the CLI must report
+    # it, not print a ValueError traceback
+    from gridreport.fetch import _check_url, _same_origin, download_binary
+
+    with pytest.raises(FetchError, match="invalid URL"):
+        _check_url(url)
+    with pytest.raises(FetchError, match="invalid URL"):
+        _same_origin(url, "https://example.com")
+    with pytest.raises(FetchError, match="invalid URL"):
+        download_binary(url, allowed_origin="https://example.com")
+
+
+def test_a_broken_stylesheet_href_skips_that_sheet_not_the_whole_scan(monkeypatch):
+    import gridreport.fetch as fetch_module
+
+    def fake_get(url):
+        if url == "https://example.com/":
+            return (
+                b'<link rel="stylesheet" href="http://[::1/bad.css">'
+                b'<link rel="stylesheet" href="/good.css">'
+            )
+        return b".x{color:#004e42}"
+
+    monkeypatch.setattr(fetch_module, "_get", fake_get)
+    html, css_texts, _ = fetch_site("https://example.com/")
+    assert css_texts == [".x{color:#004e42}"]

@@ -84,3 +84,15 @@ def test_extract_logo_url_ignores_attributes_of_other_tags():
 def test_extract_logo_url_prefers_a_logo_named_asset_over_icons():
     html = '<link rel="icon" href="/fav.ico"><img src="/assets/LOGO.svg">'
     assert extract_logo_url(html) == "/assets/LOGO.svg"
+
+
+# --- functional audit (task 10) regression tests ---
+
+def test_extract_logo_url_prefers_svg_over_png_regardless_of_document_order():
+    # spec: "Prefer .svg over .png when both are available (scales better in PDF)"
+    assert extract_logo_url('<img src="/logo.png"><img src="/logo.svg">') == "/logo.svg"
+    assert extract_logo_url('<img src="/logo.svg"><img src="/logo.png">') == "/logo.svg"
+    # a query string must not hide the format
+    assert extract_logo_url('<img src="/logo.png?v=1"><img src="/logo.svg?v=2">') == "/logo.svg?v=2"
+    # with no svg on offer, document order still decides
+    assert extract_logo_url('<img src="/a-logo.png"><img src="/b-logo.png">') == "/a-logo.png"

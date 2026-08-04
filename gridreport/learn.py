@@ -10,15 +10,21 @@ MIN_DISTINCT_COLORS = 2
 
 
 def _derive_name(url: str) -> str:
-    netloc = urllib.parse.urlparse(url).netloc
-    return netloc.replace("www.", "").split(":")[0]
+    """'https://www.manucurist.com' -> 'manucurist'.
+
+    The TLD and port have to go: sanitize_brand_name rejects dots and colons, so
+    returning the bare netloc made `learn <url>` fail for every real domain.
+    """
+    host = urllib.parse.urlparse(url).netloc.split(":")[0]
+    return host.removeprefix("www.").split(".")[0]
 
 
 def learn_command(args) -> int:
     try:
         brand = sanitize_brand_name(args.name or _derive_name(args.url))
     except ValueError as exc:
-        print(f"Invalid --name: {exc}", file=sys.stderr)
+        source = "--name" if args.name else f"brand name derived from {args.url!r}"
+        print(f"Invalid {source}: {exc}. Pass --name <brand> to set it explicitly.", file=sys.stderr)
         return 1
 
     try:

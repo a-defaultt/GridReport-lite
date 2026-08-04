@@ -64,3 +64,30 @@ def test_learn_rejects_a_path_traversal_name_cleanly(monkeypatch, tmp_path, caps
         assert learn_command(FakeArgs(url="https://example.com", name=hostile)) == 1
         assert "Invalid --name" in capsys.readouterr().err
     assert list(tmp_path.iterdir()) == []
+
+
+# --- functional audit (task 10) regression tests ---
+
+@pytest.mark.parametrize("url,expected", [
+    ("https://manucurist.com", "manucurist"),
+    ("https://www.manucurist.com/en", "manucurist"),
+    ("https://shopy-science.io", "shopy-science"),
+    ("http://localhost:8000/index.html", "localhost"),
+])
+def test_derive_name_yields_a_name_the_sanitizer_accepts(url, expected):
+    # the bare netloc keeps the TLD's dot, which sanitize_brand_name rejects - so
+    # `learn <url>` with no --name used to fail on every real domain
+    from gridreport.learn import _derive_name
+    from gridreport.template import sanitize_brand_name
+
+    assert _derive_name(url) == expected
+    assert sanitize_brand_name(_derive_name(url)) == expected
+
+
+def test_learn_without_a_name_flag_derives_the_brand_from_the_url(monkeypatch, tmp_path):
+    monkeypatch.setattr("gridreport.learn.TEMPLATES_ROOT", tmp_path)
+    html = '<div style="color:#004E42">a</div>' * 5 + '<div style="color:#FD7BDF">b</div>' * 3
+    monkeypatch.setattr("gridreport.learn.fetch_site", lambda url: (html, [], "https://manucurist.com"))
+
+    assert learn_command(FakeArgs(url="https://www.manucurist.com/")) == 0
+    assert (tmp_path / "manucurist" / "theme.css").exists()
