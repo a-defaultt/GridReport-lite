@@ -2,12 +2,37 @@ import re
 from collections import Counter
 
 HEX_COLOR_RE = re.compile(r"#[0-9a-fA-F]{6}\b")
-LOGO_IMG_LINK_RE = re.compile(r'<(?:img|link)[^>]+(?:src|href)="([^"]*logo[^"]*)"', re.IGNORECASE)
-APPLE_TOUCH_ICON_RE = re.compile(r'<link[^>]+rel="apple-touch-icon"[^>]+href="([^"]+)"', re.IGNORECASE)
-FAVICON_RE = re.compile(r'<link[^>]+rel="(?:shortcut )?icon"[^>]+href="([^"]+)"', re.IGNORECASE)
-OG_IMAGE_RE = re.compile(r'<meta[^>]+property="og:image"[^>]+content="([^"]+)"', re.IGNORECASE)
+
+TAG_NAME_RE = re.compile(r"<([a-zA-Z][a-zA-Z0-9]*)\b")
+# the lookbehind stops the engine from re-trying every position inside an
+# attribute name, which is what makes this linear instead of quadratic
+ATTR_RE = re.compile(r'(?<![-\w:.])([-\w:.]+)="([^"]*)"')
+
+ICON_RELS = ("apple-touch-icon", "icon", "shortcut icon")
 
 GRAYSCALE_THRESHOLD = 30  # max channel spread (r,g,b) below which a color counts as "grayscale noise"
+
+
+def iter_tags(html: str, *names: str):
+    """Yield (tag_name, {attr: value}) for each named tag in `html`.
+
+    Splitting on ">" first bounds every regex to one tag's worth of text.
+    Matching whole-tag patterns like `<link[^>]+rel="x"[^>]+href="y"` straight
+    against a document is O(n^2) in the length of an unclosed tag, so a single
+    5 MB page with no ">" in it hangs the scan for hours. This stays linear.
+    """
+    wanted = {name.lower() for name in names}
+    for chunk in html.split(">"):
+        start = chunk.rfind("<")
+        if start < 0:
+            continue
+        match = TAG_NAME_RE.match(chunk, start)
+        if match is None:
+            continue
+        tag = match.group(1).lower()
+        if tag not in wanted:
+            continue
+        yield tag, {k.lower(): v for k, v in ATTR_RE.findall(chunk, match.end())}
 
 
 def _is_grayscale(hex_color: str) -> bool:
@@ -27,11 +52,22 @@ def extract_colors(texts: list[str], max_colors: int = 3) -> list[str]:
 
 
 def extract_logo_url(html: str) -> str | None:
-    match = LOGO_IMG_LINK_RE.search(html)
-    if match:
-        return match.group(1)
-    for pattern in (APPLE_TOUCH_ICON_RE, FAVICON_RE, OG_IMAGE_RE):
-        match = pattern.search(html)
-        if match:
-            return match.group(1)
+    tags = list(iter_tags(html, "img", "link", "meta"))
+
+    for tag, attrs in tags:
+        if tag == "meta":
+            continue
+        for key, value in attrs.items():
+            if key.endswith(("src", "href")) and "logo" in value.lower():
+                return value
+
+    for rel in ICON_RELS:
+        for tag, attrs in tags:
+            if tag == "link" and attrs.get("rel", "").lower() == rel and attrs.get("href"):
+                return attrs["href"]
+
+    for tag, attrs in tags:
+        if tag == "meta" and attrs.get("property") == "og:image" and attrs.get("content"):
+            return attrs["content"]
+
     return None

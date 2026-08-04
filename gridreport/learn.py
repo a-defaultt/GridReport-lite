@@ -15,7 +15,11 @@ def _derive_name(url: str) -> str:
 
 
 def learn_command(args) -> int:
-    brand = sanitize_brand_name(args.name or _derive_name(args.url))
+    try:
+        brand = sanitize_brand_name(args.name or _derive_name(args.url))
+    except ValueError as exc:
+        print(f"Invalid --name: {exc}", file=sys.stderr)
+        return 1
 
     try:
         html, css_texts, base_origin = fetch_site(args.url)

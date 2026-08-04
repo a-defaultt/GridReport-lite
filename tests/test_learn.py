@@ -53,3 +53,14 @@ def test_learn_accepts_manual_color_override_even_with_no_detected_colors(monkey
     assert exit_code == 0
     meta = json.loads((tmp_path / "manual" / "meta.json").read_text())
     assert meta["colors"]["primary"] == "#123456"
+
+
+def test_learn_rejects_a_path_traversal_name_cleanly(monkeypatch, tmp_path, capsys):
+    # must be a clean exit code, not an uncaught ValueError traceback
+    monkeypatch.setattr("gridreport.learn.TEMPLATES_ROOT", tmp_path)
+    monkeypatch.setattr("gridreport.learn.fetch_site", lambda url: pytest.fail("must not fetch"))
+
+    for hostile in ("../../etc", "foo/../../bar", ".", "et\x00c"):
+        assert learn_command(FakeArgs(url="https://example.com", name=hostile)) == 1
+        assert "Invalid --name" in capsys.readouterr().err
+    assert list(tmp_path.iterdir()) == []

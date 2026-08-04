@@ -50,3 +50,37 @@ def test_extract_colors_finds_nothing_on_tailwind_style_site():
     html = (FIXTURES / "no_colors_home.html").read_text(encoding="utf-8", errors="replace")
     colors = extract_colors([html], max_colors=3)
     assert colors == []
+
+
+# --- security audit (task 9) regression tests ---
+
+def test_tag_scanning_is_not_quadratic_on_a_pathological_page():
+    # `<link[^>]+rel="x"[^>]+href="y"`-shaped patterns backtrack quadratically on
+    # an unclosed tag: 200 KB used to take ~9s, so a 5 MB page (the response cap)
+    # hung the scan for hours. Budget is generous to stay CI-stable; the old code
+    # blows past it by three orders of magnitude.
+    import time
+    from gridreport.fetch import find_stylesheet_urls
+
+    for payload in (
+        '<link ' + 'rel="stylesheet" ' * 60_000,
+        '<link ' + 'rel="icon" ' * 100_000,
+        '<meta ' + 'property="og:image" ' * 50_000,
+        '<img ' + 'src="logo' * 100_000,
+        '<link ' + 'a' * 1_000_000 + '="x"',
+    ):
+        start = time.monotonic()
+        extract_logo_url(payload)
+        find_stylesheet_urls(payload)
+        assert time.monotonic() - start < 2.0, f"scan took too long on {payload[:20]!r}"
+
+
+def test_extract_logo_url_ignores_attributes_of_other_tags():
+    # attributes must be read per-tag, not smeared across the document
+    html = '<div data-note="logo lives elsewhere"><link rel="icon" href="/fav.ico">'
+    assert extract_logo_url(html) == "/fav.ico"
+
+
+def test_extract_logo_url_prefers_a_logo_named_asset_over_icons():
+    html = '<link rel="icon" href="/fav.ico"><img src="/assets/LOGO.svg">'
+    assert extract_logo_url(html) == "/assets/LOGO.svg"
