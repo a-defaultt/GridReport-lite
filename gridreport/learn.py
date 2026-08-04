@@ -58,10 +58,13 @@ def learn_command(args) -> int:
     else:
         logo_url = extract_logo_url(html)
         if logo_url:
-            absolute_logo_url = urllib.parse.urljoin(args.url, logo_url)
             try:
+                # urljoin has to be inside the guard: the href is page-supplied,
+                # and a malformed one ('http://[::1/logo.png') raises out of
+                # urlsplit before download_binary ever gets a say
+                absolute_logo_url = urllib.parse.urljoin(args.url, logo_url)
                 logo_path = download_binary(absolute_logo_url, base_origin)
-            except FetchError as exc:
+            except (FetchError, ValueError) as exc:
                 print(f"Warning: found a logo URL but couldn't download it ({exc}); continuing without a logo.", file=sys.stderr)
 
     write_template(

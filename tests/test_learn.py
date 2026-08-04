@@ -91,3 +91,22 @@ def test_learn_without_a_name_flag_derives_the_brand_from_the_url(monkeypatch, t
 
     assert learn_command(FakeArgs(url="https://www.manucurist.com/")) == 0
     assert (tmp_path / "manucurist" / "theme.css").exists()
+
+
+def test_a_malformed_logo_href_continues_without_a_logo(monkeypatch, tmp_path, capsys):
+    # the scanned page supplies the logo href, and urljoin raises out of urlsplit
+    # on a bad IPv6 literal - it must degrade to the existing warning path, not
+    # crash the scan with a raw ValueError
+    monkeypatch.setattr("gridreport.learn.TEMPLATES_ROOT", tmp_path)
+    html = (
+        '<img src="http://[::1/logo.png" alt="logo">'
+        + '<div style="color:#004E42">a</div>' * 5
+        + '<div style="color:#FD7BDF">b</div>' * 3
+    )
+    monkeypatch.setattr("gridreport.learn.fetch_site", lambda url: (html, [], "https://example.com"))
+
+    assert learn_command(FakeArgs(url="https://example.com", name="badlogo")) == 0
+    assert "continuing without a logo" in capsys.readouterr().err
+    # the template is still written, just logo-less
+    assert json.loads((tmp_path / "badlogo" / "meta.json").read_text())["logo_file"] is None
+    assert not list((tmp_path / "badlogo").glob("logo.*"))
