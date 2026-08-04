@@ -1,5 +1,9 @@
+from pathlib import Path
+
 import pytest
 from gridreport.fetch import fetch_site, download_binary, FetchError
+
+FIXTURES = Path(__file__).parent / "fixtures"
 
 
 def test_fetch_site_rejects_non_http_schemes():
@@ -84,3 +88,99 @@ def test_download_binary_ignores_a_hostile_url_suffix(monkeypatch):
 
     keeps = download_binary("https://example.com/brand.svg", allowed_origin="https://example.com")
     assert keeps.name == "logo.svg"
+
+
+def test_redirect_to_private_address_is_blocked_through_the_real_opener(monkeypatch):
+    """End-to-end: a real 302 from a real server must not be followed to an internal IP.
+
+    This is the test that defends the *wiring*. The sibling test above calls
+    redirect_request() directly, so it stays green even if _get() is reverted to
+    plain urllib.request.urlopen() - which reopens the hole completely.
+
+    The test server has to live on loopback, which the guard itself blocks on the
+    first hop, and GRIDREPORT_ALLOW_PRIVATE is global so it would disable the
+    redirect check too. So we wave through only the *first* _check_url call and
+    let every redirect target hit the real implementation.
+    """
+    import threading
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+    import gridreport.fetch as fetch_module
+
+    metadata_url = "http://169.254.169.254/latest/meta-data/"
+    requests_seen = []
+
+    class Redirector(BaseHTTPRequestHandler):
+        def do_GET(self):
+            requests_seen.append(self.path)
+            self.send_response(302)
+            self.send_header("Location", metadata_url)
+            self.end_headers()
+
+        def log_message(self, *args):
+            pass
+
+    real_check = fetch_module._check_url
+    checked = []
+
+    def check_all_but_the_first_hop(url):
+        checked.append(url)
+        if len(checked) > 1:
+            real_check(url)
+
+    monkeypatch.setattr(fetch_module, "_check_url", check_all_but_the_first_hop)
+
+    server = HTTPServer(("127.0.0.1", 0), Redirector)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    try:
+        origin = f"http://127.0.0.1:{server.server_port}"
+        # must fail specifically on the address check, not on a timeout talking to
+        # 169.254.169.254 - a timeout would also raise FetchError and mask a revert
+        with pytest.raises(FetchError, match="non-public address"):
+            fetch_module._get(f"{origin}/logo.png")
+    finally:
+        server.shutdown()
+        server.server_close()
+
+    assert requests_seen == ["/logo.png"], "only the initial request may reach the network"
+    assert checked == [f"{origin}/logo.png", metadata_url], checked
+
+
+@pytest.mark.parametrize("url", [
+    "http://example.com:99999/",   # out of range
+    "http://example.com:abc/",     # not an integer
+    "http://example.com:-1/",
+])
+def test_malformed_port_raises_fetcherror_not_a_raw_valueerror(url):
+    # _check_url runs outside _get's try/except, so parsed.port must not leak
+    from gridreport.fetch import _check_url
+    with pytest.raises(FetchError, match="invalid URL"):
+        _check_url(url)
+
+
+@pytest.mark.parametrize("value", ["0", "false", "no", "", " "])
+def test_allow_private_env_var_requires_an_explicit_truthy_value(monkeypatch, value):
+    from gridreport.fetch import _check_url
+    monkeypatch.setenv("GRIDREPORT_ALLOW_PRIVATE", value)
+    with pytest.raises(FetchError, match="non-public address"):
+        _check_url("http://127.0.0.1/")
+
+
+def test_stylesheet_sampling_dedupes_before_applying_the_limit():
+    # Shopify-style themes emit preload+real <link> pairs for the same href;
+    # without dedupe the 5-slot budget is spent on duplicates and real
+    # stylesheets get dropped, which shifts frequency-ranked color detection
+    from gridreport.fetch import find_stylesheet_urls
+
+    html = (
+        '<link rel="stylesheet" href="/a.css">'
+        '<link rel="stylesheet" href="/a.css">'
+        '<link rel="stylesheet" href="/b.css">'
+        '<link rel="stylesheet" href="/b.css">'
+        '<link rel="stylesheet" href="/c.css">'
+    )
+    assert find_stylesheet_urls(html, limit=3) == ["/a.css", "/b.css", "/c.css"]
+
+    fixture = (FIXTURES / "manucurist_home.html").read_text(encoding="utf-8", errors="replace")
+    sampled = find_stylesheet_urls(fixture)
+    assert len(sampled) == 5
+    assert len(set(sampled)) == 5, f"duplicates consumed the budget: {sampled}"

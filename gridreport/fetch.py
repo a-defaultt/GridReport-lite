@@ -38,7 +38,8 @@ def _check_url(url: str) -> None:
     parsed = urllib.parse.urlparse(url)
     if parsed.scheme not in ALLOWED_SCHEMES:
         raise FetchError(f"unsupported URL scheme {parsed.scheme!r} (only http/https allowed)")
-    if os.environ.get(ALLOW_PRIVATE_ENV):
+    # require an explicit truthy value: plain get() would treat "0" as "bypass"
+    if os.environ.get(ALLOW_PRIVATE_ENV, "").strip().lower() in {"1", "true", "yes"}:
         return
     host = parsed.hostname
     if not host:
@@ -49,6 +50,10 @@ def _check_url(url: str) -> None:
         # the pinned IP with a manual Host header - do that if this ever becomes
         # a service where an untrusted caller supplies the URL.
         addrinfo = socket.getaddrinfo(host, parsed.port or 80, proto=socket.IPPROTO_TCP)
+    except ValueError as exc:
+        # parsed.port raises on a malformed/out-of-range port, and _check_url is
+        # called outside _get's try/except - so it has to convert its own errors
+        raise FetchError(f"invalid URL {url!r}: {exc}") from exc
     except socket.gaierror as exc:
         raise FetchError(f"could not resolve {host!r}: {exc}") from exc
     for info in addrinfo:
@@ -88,7 +93,9 @@ def find_stylesheet_urls(html: str, limit: int = 5) -> list[str]:
         for _, attrs in iter_tags(html, "link")
         if attrs.get("rel", "").lower() == "stylesheet" and attrs.get("href")
     ]
-    return hrefs[:limit]
+    # dedupe before slicing: Shopify-style themes emit preload+real <link> pairs
+    # for the same asset, and duplicates would otherwise eat the sample budget
+    return list(dict.fromkeys(hrefs))[:limit]
 
 
 def fetch_site(url: str) -> tuple[str, list[str], str]:
