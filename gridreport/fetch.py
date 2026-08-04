@@ -87,12 +87,21 @@ class _GuardedRedirectHandler(urllib.request.HTTPRedirectHandler):
 _opener = urllib.request.build_opener(_GuardedRedirectHandler)
 
 
-def _get(url: str) -> bytes:
+def _get(url: str) -> tuple[bytes, str]:
+    """Fetch url, returning (body, final_url) where final_url is post-redirect.
+
+    Callers that decide same-origin from the response (fetch_site) must use
+    final_url, not the url they requested - a same-origin check against a
+    pre-redirect URL rejects assets that are genuinely same-origin relative to
+    where the page actually ended up (e.g. the near-universal
+    https://example.com -> https://www.example.com redirect).
+    """
     _check_url(url)
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     try:
         with _opener.open(request, timeout=REQUEST_TIMEOUT) as response:
             data = response.read(MAX_RESPONSE_BYTES + 1)
+            final_url = response.geturl()
     # http.client.HTTPException (BadStatusLine, IncompleteRead, ...) is NOT an
     # OSError: a server that answers with garbage instead of HTTP used to reach
     # the user as a traceback. The remote end is untrusted, so its malformed
@@ -101,7 +110,7 @@ def _get(url: str) -> bytes:
         raise FetchError(f"request to {url} failed: {exc}") from exc
     if len(data) > MAX_RESPONSE_BYTES:
         raise FetchError(f"response from {url} exceeded {MAX_RESPONSE_BYTES} bytes, aborting")
-    return data
+    return data, final_url
 
 
 def find_stylesheet_urls(html: str, limit: int = 5) -> list[str]:
@@ -117,8 +126,11 @@ def find_stylesheet_urls(html: str, limit: int = 5) -> list[str]:
 
 def fetch_site(url: str) -> tuple[str, list[str], str]:
     """Fetch homepage HTML and same-origin linked CSS (one level deep, max 5 stylesheets)."""
-    html = _get(url).decode("utf-8", errors="replace")
-    parsed = _parse(url)
+    data, final_url = _get(url)
+    html = data.decode("utf-8", errors="replace")
+    # same-origin reference is the page's actual (post-redirect) URL, matching
+    # how a real browser evaluates same-origin - not the URL the caller passed
+    parsed = _parse(final_url)
     base_origin = f"{parsed.scheme}://{parsed.netloc}"
 
     css_texts = []
@@ -126,10 +138,11 @@ def fetch_site(url: str) -> tuple[str, list[str], str]:
         # the page supplies these hrefs, so a broken or hostile one skips that
         # stylesheet - it must not abort the whole scan (urljoin raises too)
         try:
-            absolute = urllib.parse.urljoin(url, css_url)
+            absolute = urllib.parse.urljoin(final_url, css_url)
             if not _same_origin(absolute, base_origin):
                 continue
-            css_texts.append(_get(absolute).decode("utf-8", errors="replace"))
+            css_data, _ = _get(absolute)
+            css_texts.append(css_data.decode("utf-8", errors="replace"))
         except (FetchError, ValueError):
             continue
     return html, css_texts, base_origin
@@ -141,7 +154,7 @@ def download_binary(url: str, allowed_origin: str) -> Path:
         raise FetchError(f"unsupported URL scheme {parsed.scheme!r} (only http/https allowed)")
     if not _same_origin(url, allowed_origin):
         raise FetchError(f"refusing to download from a different origin than {allowed_origin}: {url}")
-    data = _get(url)
+    data, _ = _get(url)
     # the remote page controls this path, and the suffix becomes a filename that
     # render.py later interpolates into HTML - keep it to boring extensions
     suffix = Path(parsed.path).suffix

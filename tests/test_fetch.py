@@ -26,7 +26,7 @@ def test_fetch_site_rejects_domain_suffix_spoofing(monkeypatch):
     # must NOT be treated as same-origin
     def fake_get(url):
         if url == "https://example.com":
-            return b'<link rel="stylesheet" href="https://example.com.evil.com/style.css">'
+            return b'<link rel="stylesheet" href="https://example.com.evil.com/style.css">', url
         raise AssertionError(f"should never fetch the spoofed stylesheet URL: {url}")
     import gridreport.fetch as fetch_module
     monkeypatch.setattr(fetch_module, "_get", fake_get)
@@ -80,7 +80,7 @@ def test_download_binary_ignores_a_hostile_url_suffix(monkeypatch):
     # the remote page controls the logo path, and the suffix becomes a filename
     # that render.py interpolates into HTML - only plain extensions may survive
     import gridreport.fetch as fetch_module
-    monkeypatch.setattr(fetch_module, "_get", lambda url: b"data")
+    monkeypatch.setattr(fetch_module, "_get", lambda url: (b"data", url))
     for path in ('/logo."onerror=alert(1)', "/logo.%2e%2e%2f%2e%2e%2fetc%2fpasswd", "/logo.<script>"):
         result = download_binary(f"https://example.com{path}", allowed_origin="https://example.com")
         assert result.name == "logo.png", result.name
@@ -210,8 +210,8 @@ def test_a_broken_stylesheet_href_skips_that_sheet_not_the_whole_scan(monkeypatc
             return (
                 b'<link rel="stylesheet" href="http://[::1/bad.css">'
                 b'<link rel="stylesheet" href="/good.css">'
-            )
-        return b".x{color:#004e42}"
+            ), url
+        return b".x{color:#004e42}", url
 
     monkeypatch.setattr(fetch_module, "_get", fake_get)
     html, css_texts, _ = fetch_site("https://example.com/")
@@ -244,3 +244,27 @@ def test_a_server_answering_with_garbage_is_a_fetcherror_not_a_traceback(monkeyp
     finally:
         server.shutdown()
         server.server_close()
+
+
+def test_fetch_site_uses_the_post_redirect_url_for_same_origin_checks(monkeypatch):
+    """https://example.com -> https://www.example.com is one of the most common
+    redirect patterns on the internet. Stylesheet hrefs on the page are relative
+    to where the page actually ended up (the post-redirect URL), not the URL the
+    caller originally requested - so the same-origin check must use final_url,
+    not url. Before the fix, base_origin stayed "https://example.com" and this
+    genuinely same-origin stylesheet was rejected as cross-origin.
+    """
+    import gridreport.fetch as fetch_module
+
+    def fake_get(url):
+        if url == "https://example.com/":
+            html = b'<link rel="stylesheet" href="https://www.example.com/style.css">'
+            return html, "https://www.example.com/"  # redirected here
+        if url == "https://www.example.com/style.css":
+            return b".x{color:#004e42}", url
+        raise AssertionError(f"unexpected fetch: {url}")
+
+    monkeypatch.setattr(fetch_module, "_get", fake_get)
+    html, css_texts, base_origin = fetch_site("https://example.com/")
+    assert base_origin == "https://www.example.com"
+    assert css_texts == [".x{color:#004e42}"]
