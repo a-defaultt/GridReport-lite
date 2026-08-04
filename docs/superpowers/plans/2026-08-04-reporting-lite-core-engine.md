@@ -713,6 +713,11 @@ def test_resolve_theme_unknown_brand_exits_with_available_list(monkeypatch, tmp_
     assert "known-brand" in captured.err
 
 
+def test_resolve_theme_rejects_path_traversal_in_brand():
+    with pytest.raises(ValueError, match="only letters, numbers"):
+        resolve_theme("../../etc")
+
+
 def test_render_produces_valid_multipage_pdf(tmp_path):
     md_file = tmp_path / "sample.md"
     md_file.write_text("# Title\n\n" + ("Paragraph text.\n\n" * 200))
@@ -745,7 +750,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-from .template import TEMPLATES_ROOT
+from .template import TEMPLATES_ROOT, sanitize_brand_name
 
 PACKAGE_DIR = Path(__file__).resolve().parent
 DEFAULT_THEME_CSS = PACKAGE_DIR / "themes" / "default.css"
@@ -778,6 +783,7 @@ def resolve_theme(brand: str | None) -> tuple[Path, Path | None]:
     if brand is None:
         return DEFAULT_THEME_CSS, None
 
+    brand = sanitize_brand_name(brand)  # raises ValueError on path-traversal-shaped input, before it ever touches a path
     brand_dir = TEMPLATES_ROOT / brand
     css_path = brand_dir / "theme.css"
     if not css_path.exists():
@@ -834,7 +840,11 @@ def render_command(args) -> int:
         print(f"Input file not found: {md_path}", file=sys.stderr)
         return 1
     out_path = Path(args.output).resolve() if args.output else md_path.with_suffix(".pdf")
-    convert(md_path, out_path, args.brand)
+    try:
+        convert(md_path, out_path, args.brand)
+    except ValueError as exc:
+        print(f"Invalid --brand: {exc}", file=sys.stderr)
+        return 1
     print(f"Wrote {out_path}")
     return 0
 ```
@@ -1103,7 +1113,7 @@ This is a review-and-fix task, not a new-feature task — dispatch a fresh subag
 
 > Review the `gridreport` package at `GridReport-lite/gridreport/` for security issues, specifically:
 > 1. **SSRF risk in `learn`**: `fetch.py`'s `_get()` checks URL *scheme* (http/https only) but does not check what IP address the hostname actually resolves to. A user (or an automated caller) could point `gridreport learn` at `http://169.254.169.254/` (cloud metadata endpoints), `http://localhost/`, or an internal `192.168.x.x`/`10.x.x.x`/`172.16-31.x.x` address, and the tool will fetch it. Determine whether this matters for how the tool is actually used (a local CLI a user runs against sites *they* choose) versus a real risk (e.g. if this is ever exposed as a service where an untrusted caller supplies the URL). If it's a real risk, add resolution-based blocking: resolve the hostname via `socket.gethostbyname`, check the result against `ipaddress.ip_address(...).is_private`, `.is_loopback`, and `.is_link_local`, and raise `FetchError` if any are true, before connecting.
-> 2. **Path traversal**: confirm `sanitize_brand_name` (`template.py`) is actually called on every code path that turns a user-supplied string into a filesystem path (both `--name` in `learn.py` and `--brand` in `render.py`'s `resolve_theme`) — `render.py` currently does NOT sanitize `--brand` before using it in `TEMPLATES_ROOT / brand`. Check whether this is exploitable (e.g. `--brand ../../etc`) and fix if so.
+> 2. **Path traversal**: confirm `sanitize_brand_name` (`template.py`) is actually called on every code path that turns a user-supplied string into a filesystem path — both `--name` in `learn.py` and `--brand` in `render.py`'s `resolve_theme` should reject something shaped like `--brand ../../etc` before it ever reaches `TEMPLATES_ROOT / brand`. Verify this end-to-end through the actual CLI (`python -m gridreport.cli render x.md --brand ../../etc`), not just via the unit tests in isolation, in case the sanitization call and the CLI wiring have drifted apart.
 > 3. **Unsafe parsing of untrusted content**: confirm nothing in `extract.py` or `fetch.py` ever evaluates, executes, or otherwise treats fetched HTML/CSS as code (it shouldn't — everything should be plain regex/string matching) — verify this holds, don't just assume it.
 > 4. **File write safety**: confirm `write_template` and `download_binary` only ever write inside their intended directories (`~/.gridreport/templates/<sanitized-brand>/` and a fresh `tempfile.mkdtemp()` respectively) and can't be tricked into writing elsewhere.
 >
