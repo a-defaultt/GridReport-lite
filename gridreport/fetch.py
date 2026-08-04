@@ -1,0 +1,165 @@
+import http.client
+import ipaddress
+import os
+import re
+import socket
+import tempfile
+import urllib.parse
+import urllib.request
+from pathlib import Path
+
+from .extract import iter_tags
+
+ALLOWED_SCHEMES = {"http", "https"}
+MAX_RESPONSE_BYTES = 5_000_000
+REQUEST_TIMEOUT = 10
+USER_AGENT = "gridreport-learn/0.1"
+ALLOW_PRIVATE_ENV = "GRIDREPORT_ALLOW_PRIVATE"
+SAFE_SUFFIX_RE = re.compile(r"\.[A-Za-z0-9]{1,8}")
+
+
+class FetchError(Exception):
+    pass
+
+
+def _parse(url: str):
+    """urlparse, but a bad URL is a FetchError rather than a raw ValueError.
+
+    `http://[::1/` and friends raise out of urlsplit itself, which used to reach
+    the user as a traceback. Every caller in this module wants the same answer.
+    """
+    try:
+        return urllib.parse.urlparse(url)
+    except ValueError as exc:
+        raise FetchError(f"invalid URL {url!r}: {exc}") from exc
+
+
+def _same_origin(url: str, origin: str) -> bool:
+    """Check if url has the same scheme and netloc as origin."""
+    parsed_url = _parse(url)
+    parsed_origin = _parse(origin)
+    return (parsed_url.scheme, parsed_url.netloc) == (parsed_origin.scheme, parsed_origin.netloc)
+
+
+def _check_url(url: str) -> None:
+    """Allow only http(s) URLs whose hostname resolves to a public address.
+
+    Applied to the initial URL *and* every redirect target: the page being
+    scanned supplies the stylesheet and logo URLs we follow, so a 302 to
+    169.254.169.254 would otherwise sail straight past the same-origin check.
+    """
+    parsed = _parse(url)
+    if parsed.scheme not in ALLOWED_SCHEMES:
+        raise FetchError(f"unsupported URL scheme {parsed.scheme!r} (only http/https allowed)")
+    # require an explicit truthy value: plain get() would treat "0" as "bypass"
+    if os.environ.get(ALLOW_PRIVATE_ENV, "").strip().lower() in {"1", "true", "yes"}:
+        return
+    host = parsed.hostname
+    if not host:
+        raise FetchError(f"no hostname in URL {url!r}")
+    try:
+        # ponytail: resolve-then-connect leaves a DNS-rebinding window, since
+        # urllib resolves the name again itself. Closing it means connecting to
+        # the pinned IP with a manual Host header - do that if this ever becomes
+        # a service where an untrusted caller supplies the URL.
+        addrinfo = socket.getaddrinfo(host, parsed.port or 80, proto=socket.IPPROTO_TCP)
+    except ValueError as exc:
+        # parsed.port raises on a malformed/out-of-range port, and _check_url is
+        # called outside _get's try/except - so it has to convert its own errors
+        raise FetchError(f"invalid URL {url!r}: {exc}") from exc
+    except socket.gaierror as exc:
+        raise FetchError(f"could not resolve {host!r}: {exc}") from exc
+    for info in addrinfo:
+        ip = ipaddress.ip_address(info[4][0])
+        if not ip.is_global:
+            raise FetchError(
+                f"refusing to fetch {url}: {host} resolves to non-public address {ip}. "
+                f"Set {ALLOW_PRIVATE_ENV}=1 to scan an internal or local site on purpose."
+            )
+
+
+class _GuardedRedirectHandler(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        _check_url(newurl)
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+_opener = urllib.request.build_opener(_GuardedRedirectHandler)
+
+
+def _get(url: str) -> tuple[bytes, str]:
+    """Fetch url, returning (body, final_url) where final_url is post-redirect.
+
+    Callers that decide same-origin from the response (fetch_site) must use
+    final_url, not the url they requested - a same-origin check against a
+    pre-redirect URL rejects assets that are genuinely same-origin relative to
+    where the page actually ended up (e.g. the near-universal
+    https://example.com -> https://www.example.com redirect).
+    """
+    _check_url(url)
+    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    try:
+        with _opener.open(request, timeout=REQUEST_TIMEOUT) as response:
+            data = response.read(MAX_RESPONSE_BYTES + 1)
+            final_url = response.geturl()
+    # http.client.HTTPException (BadStatusLine, IncompleteRead, ...) is NOT an
+    # OSError: a server that answers with garbage instead of HTTP used to reach
+    # the user as a traceback. The remote end is untrusted, so its malformed
+    # responses have to be FetchErrors like every other fetch failure.
+    except (OSError, ValueError, http.client.HTTPException) as exc:
+        raise FetchError(f"request to {url} failed: {exc}") from exc
+    if len(data) > MAX_RESPONSE_BYTES:
+        raise FetchError(f"response from {url} exceeded {MAX_RESPONSE_BYTES} bytes, aborting")
+    return data, final_url
+
+
+def find_stylesheet_urls(html: str, limit: int = 5) -> list[str]:
+    hrefs = [
+        attrs["href"]
+        for _, attrs in iter_tags(html, "link")
+        if attrs.get("rel", "").lower() == "stylesheet" and attrs.get("href")
+    ]
+    # dedupe before slicing: Shopify-style themes emit preload+real <link> pairs
+    # for the same asset, and duplicates would otherwise eat the sample budget
+    return list(dict.fromkeys(hrefs))[:limit]
+
+
+def fetch_site(url: str) -> tuple[str, list[str], str]:
+    """Fetch homepage HTML and same-origin linked CSS (one level deep, max 5 stylesheets)."""
+    data, final_url = _get(url)
+    html = data.decode("utf-8", errors="replace")
+    # same-origin reference is the page's actual (post-redirect) URL, matching
+    # how a real browser evaluates same-origin - not the URL the caller passed
+    parsed = _parse(final_url)
+    base_origin = f"{parsed.scheme}://{parsed.netloc}"
+
+    css_texts = []
+    for css_url in find_stylesheet_urls(html):
+        # the page supplies these hrefs, so a broken or hostile one skips that
+        # stylesheet - it must not abort the whole scan (urljoin raises too)
+        try:
+            absolute = urllib.parse.urljoin(final_url, css_url)
+            if not _same_origin(absolute, base_origin):
+                continue
+            css_data, _ = _get(absolute)
+            css_texts.append(css_data.decode("utf-8", errors="replace"))
+        except (FetchError, ValueError):
+            continue
+    return html, css_texts, base_origin
+
+
+def download_binary(url: str, allowed_origin: str) -> Path:
+    parsed = _parse(url)
+    if parsed.scheme not in ALLOWED_SCHEMES:
+        raise FetchError(f"unsupported URL scheme {parsed.scheme!r} (only http/https allowed)")
+    if not _same_origin(url, allowed_origin):
+        raise FetchError(f"refusing to download from a different origin than {allowed_origin}: {url}")
+    data, _ = _get(url)
+    # the remote page controls this path, and the suffix becomes a filename that
+    # render.py later interpolates into HTML - keep it to boring extensions
+    suffix = Path(parsed.path).suffix
+    if not SAFE_SUFFIX_RE.fullmatch(suffix):
+        suffix = ".png"
+    tmp_path = Path(tempfile.mkdtemp()) / f"logo{suffix}"
+    tmp_path.write_bytes(data)
+    return tmp_path

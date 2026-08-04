@@ -1,0 +1,129 @@
+/* Generic professional theme — no brand tie-in, dark-slate/blue palette */
+:root {
+  --primary: #1e3a5f;      /* dark navy */
+  --secondary: #2a9d8f;    /* teal accent */
+  --text: #262626;
+  --muted: #6b7280;
+  --border: #dcdfe3;
+  --code-bg: #f4f5f7;
+}
+
+@page {
+  size: A4;
+  margin: 3cm 2cm 2.4cm 2cm;
+  @top-center { content: element(pageHeader); }
+  @bottom-center {
+    content: "Page " counter(page) " of " counter(pages);
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+    font-size: 8.5pt;
+    color: var(--muted);
+  }
+}
+
+#page-header {
+  position: running(pageHeader);
+  border-bottom: 1.5pt solid var(--secondary);
+  padding-bottom: 6pt;
+  width: 100%;
+  overflow: hidden; /* clearfix: flexbox isn't reliable inside WeasyPrint margin boxes, floats are */
+}
+#page-header img { height: 20pt; float: left; }
+#page-header .doc-title {
+  float: right;
+  max-width: 70%;
+  line-height: 20pt;
+  font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+  font-size: 9pt;
+  color: var(--primary);
+  font-weight: 600;
+  text-align: right;
+}
+
+body {
+  font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+h1, h2, h3, h4 {
+  page-break-after: avoid;
+  break-after: avoid;
+}
+h1 {
+  color: var(--primary);
+  font-size: 21pt;
+  border-bottom: 2.5pt solid var(--secondary);
+  padding-bottom: 6pt;
+  margin-top: 0;
+}
+h2 {
+  color: var(--primary);
+  font-size: 14.5pt;
+  margin-top: 22pt;
+  border-bottom: 0.75pt solid var(--border);
+  padding-bottom: 3pt;
+}
+h3 { color: var(--secondary); font-size: 12pt; margin-top: 16pt; }
+h4 { color: var(--primary); font-size: 10.5pt; margin-top: 12pt; }
+
+p { orphans: 3; widows: 3; }
+
+a { color: var(--secondary); text-decoration: none; }
+
+table {
+  width: 100%;
+  table-layout: auto; /* content-aware column widths look better than equal-width; overflow-wrap below keeps it from escaping the page */
+  border-collapse: collapse;
+  margin: 12pt 0;
+  font-size: 9.5pt;
+}
+thead { display: table-header-group; } /* repeats the header row on every page a tall table spans */
+tr { page-break-inside: avoid; break-inside: avoid; } /* a single row never splits mid-row */
+th {
+  background: var(--primary);
+  color: #ffffff;
+  text-align: left;
+  padding: 6pt 8pt;
+  font-weight: 600;
+  overflow-wrap: break-word;
+}
+td { padding: 5pt 8pt; border-bottom: 0.5pt solid var(--border); vertical-align: top; overflow-wrap: break-word; }
+td code, th code { overflow-wrap: anywhere; word-break: break-all; }
+tr:nth-child(even) td { background: #fafafa; }
+
+code {
+  font-family: "SF Mono", "Consolas", "Menlo", monospace;
+  font-size: 9pt;
+  background: var(--code-bg);
+  padding: 1.5pt 4pt;
+  border-radius: 3pt;
+}
+pre {
+  background: var(--code-bg);
+  border-left: 3pt solid var(--secondary);
+  padding: 8pt 10pt;
+  font-size: 8.5pt;
+  line-height: 1.4;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  page-break-inside: avoid;
+  break-inside: avoid;
+  border-radius: 0 4pt 4pt 0;
+}
+pre code { background: none; padding: 0; }
+
+blockquote {
+  border-left: 3pt solid var(--secondary);
+  margin: 10pt 0;
+  padding: 4pt 12pt;
+  color: var(--muted);
+  font-style: italic;
+}
+
+hr { border: none; border-top: 0.75pt solid var(--border); margin: 18pt 0; }
+
+ul, ol { margin: 6pt 0; padding-left: 20pt; }
+li { margin: 3pt 0; }
+
+strong { color: var(--primary); }
