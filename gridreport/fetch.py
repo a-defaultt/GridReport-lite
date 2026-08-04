@@ -16,6 +16,13 @@ class FetchError(Exception):
     pass
 
 
+def _same_origin(url: str, origin: str) -> bool:
+    """Check if url has the same scheme and netloc as origin."""
+    parsed_url = urllib.parse.urlparse(url)
+    parsed_origin = urllib.parse.urlparse(origin)
+    return (parsed_url.scheme, parsed_url.netloc) == (parsed_origin.scheme, parsed_origin.netloc)
+
+
 def _get(url: str) -> bytes:
     parsed = urllib.parse.urlparse(url)
     if parsed.scheme not in ALLOWED_SCHEMES:
@@ -40,7 +47,7 @@ def fetch_site(url: str) -> tuple[str, list[str], str]:
     css_texts = []
     for css_url in CSS_LINK_RE.findall(html)[:5]:
         absolute = urllib.parse.urljoin(url, css_url)
-        if not absolute.startswith(base_origin):
+        if not _same_origin(absolute, base_origin):
             continue
         try:
             css_texts.append(_get(absolute).decode("utf-8", errors="replace"))
@@ -53,7 +60,7 @@ def download_binary(url: str, allowed_origin: str) -> Path:
     parsed = urllib.parse.urlparse(url)
     if parsed.scheme not in ALLOWED_SCHEMES:
         raise FetchError(f"unsupported URL scheme {parsed.scheme!r} (only http/https allowed)")
-    if not url.startswith(allowed_origin):
+    if not _same_origin(url, allowed_origin):
         raise FetchError(f"refusing to download from a different origin than {allowed_origin}: {url}")
     data = _get(url)
     suffix = Path(parsed.path).suffix or ".png"
