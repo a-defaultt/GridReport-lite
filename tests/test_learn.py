@@ -73,6 +73,11 @@ def test_learn_rejects_a_path_traversal_name_cleanly(monkeypatch, tmp_path, caps
     ("https://www.manucurist.com/en", "manucurist"),
     ("https://shopy-science.io", "shopy-science"),
     ("http://localhost:8000/index.html", "localhost"),
+    # a capitalized URL must still derive a lowercase brand: a case-sensitive
+    # removeprefix leaves 'WWW.' in place, and a 'Manucurist' template dir would
+    # not match `render --brand manucurist` on a case-sensitive filesystem
+    ("https://Manucurist.com", "manucurist"),
+    ("https://WWW.Manucurist.com", "manucurist"),
 ])
 def test_derive_name_yields_a_name_the_sanitizer_accepts(url, expected):
     # the bare netloc keeps the TLD's dot, which sanitize_brand_name rejects - so

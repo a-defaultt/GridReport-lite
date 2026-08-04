@@ -14,8 +14,13 @@ def _derive_name(url: str) -> str:
 
     The TLD and port have to go: sanitize_brand_name rejects dots and colons, so
     returning the bare netloc made `learn <url>` fail for every real domain.
+
+    .hostname, not .netloc: it lowercases and drops the port for us, so
+    'https://WWW.Manucurist.com' derives 'manucurist' rather than 'WWW' (a
+    case-sensitive removeprefix on a raw netloc) or 'Manucurist' (which would
+    then not match `render --brand manucurist` on a case-sensitive filesystem).
     """
-    host = urllib.parse.urlparse(url).netloc.split(":")[0]
+    host = urllib.parse.urlparse(url).hostname or ""
     return host.removeprefix("www.").split(".")[0]
 
 
