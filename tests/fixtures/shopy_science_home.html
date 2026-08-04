@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<!--[if !(IE 6) | !(IE 7) | !(IE 8)  ]><!-->
+<html lang="en-US" class="no-js">
+<!--<![endif]-->
+<head>
+	<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<meta name="theme-color" content="#48a447"/>	<link rel="profile" href="http://gmpg.org/xfn/11" />
+	        <script type="text/javascript">
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                var originalAddEventListener = EventTarget.prototype.addEventListener,
+                    oldWidth = window.innerWidth;
+
+                EventTarget.prototype.addEventListener = function (eventName, eventHandler, useCapture) {
+                    if (eventName === "resize") {
+                        originalAddEventListener.call(this, eventName, function (event) {
+                            if (oldWidth === window.innerWidth) {
+                                return;
+                            }
+                            else if (oldWidth !== window.innerWidth) {
+                                oldWidth = window.innerWidth;
+                            }
+                            if (eventHandler.handleEvent) {
+                                eventHandler.handleEvent.call(this, event);
+                            }
+                            else {
+                                eventHandler.call(this, event);
+                            };
+                        }, useCapture);
+                    }
+                    else {
+                        originalAddEventListener.call(this, eventName, eventHandler, useCapture);
+                    };
+                };
+            };
+        </script>
+		<title>Shopy Science</title>
+
+<!-- This site uses Hotel Booking Lite plugin by MotoPress v6.2.2 - https://motopress.com/products/hotel-booking/ -->
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Shopy Science &raquo; Feed" href="https://shopy-science.io/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Shopy Science &raquo; Comments Feed" href="https://shopy-science.io/comments/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.0.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.0.1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/shopy-science.io\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.6.17"}};
+			!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){var a=String.fromCharCode;p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,e),0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,t),0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(!p||!p.fillText)return!1;switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])?!1:!s([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!s([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]);case"emoji":return!s([55357,56424,8205,55356,57212],[55357,56424,8203,55356,57212])}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(n=t.source||{}).concatemoji?c(n.concatemoji):n.wpemoji&&n.twemoji&&(c(n.twemoji),c(n.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='wp-block-library-css'  href='https://shopy-science.io/wp-includes/css/dist/block-library/style.min.css?ver=5.6.17' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-block-library-theme-css'  href='https://shopy-science.io/wp-includes/css/dist/block-library/theme.min.css?ver=5.6.17' type='text/css' media='all' />
+<link rel='stylesheet' id='mphb-kbwood-datepick-css-css'  href='https://shopy-science.io/wp-content/plugins/motopress-hotel-booking-lite/vendors/kbwood/datepick/jquery.datepick.css?ver=6.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='mphb-shortcodes-group-availability-calendar-css-css'  href='https://shopy-science.io/wp-content/plugins/motopress-hotel-booking-lite/assets/js/shortcodes/group-availability-calendar/index.css?ver=6.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='mphb-css'  href='https://shopy-science.io/wp-content/plugins/motopress-hotel-booking-lite/assets/css/mphb.min.css?ver=6.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='give-donation-summary-style-frontend-css'  href='https://shopy-science.io/wp-content/plugins/give/assets/dist/css/give-donation-summary.css?ver=2.20.0' type='text/css' media='all' />
+<link rel='stylesheet' id='dashicons-css'  href='https://shopy-science.io/wp-includes/css/dashicons.min.css?ver=5.6.17' type='text/css' media='all' />
+<link rel='stylesheet' id='js_composer_front-css'  href='//shopy-science.io/wp-content/uploads/js_composer/js_composer_front_custom.css?ver=6.9.0' type='text/css' media='all' />
+<link rel='stylesheet' id='dt-web-fonts-css'  href='https://fonts.googleapis.com/css?family=Poppins:400,600,700%7CRoboto:400,600,700%7CIBM+Plex+Sans:400,600,700' type='text/css' media='all' />
+<link rel='stylesheet' id='dt-main-css'  href='https://shopy-science.io/wp-content/themes/dt-the7/css-lite/main.min.css?ver=9.7.2' type='text/css' media='all' />
+<link rel='stylesheet' id='the7-font-css'  href='https://shopy-science.io/wp-content/themes/dt-the7/fonts/icomoon-the7-font/icomoon-the7-font.min.css?ver=9.7.2' type='text/css' media='all' />
+<link rel='stylesheet' id='the7-wpbakery-css'  href='https://shopy-science.io/wp-content/themes/dt-the7/css-lite/wpbakery.min.css?ver=9.7.2' type='text/css' media='all' />
+<link rel='stylesheet' id='dt-custom-css'  href='https://shopy-science.io/wp-content/uploads/the7-css/custom.css?ver=f0e47159f823' type='text/css' media='all' />
+<link rel='stylesheet' id='dt-media-css'  href='https://shopy-science.io/wp-content/uploads/the7-css/media.css?ver=f0e47159f823' type='text/css' media='all' />
+<link rel='stylesheet' id='the7-mega-menu-css'  href='https://shopy-science.io/wp-content/uploads/the7-css/mega-menu.css?ver=f0e47159f823' type='text/css' media='all' />
+<link rel='stylesheet' id='style-css'  href='https://shopy-science.io/wp-content/themes/dt-the7-child/style.css?ver=9.7.2' type='text/css' media='all' />
+<script type='text/javascript' src='https://shopy-science.io/wp-includes/js/jquery/jquery.min.js?ver=3.5.1' id='jquery-core-js'></script>
+<script type='text/javascript' src='https://shopy-science.io/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.3.2' id='jquery-migrate-js'></script>
+<script type='text/javascript' src='https://shopy-science.io/wp-includes/js/dist/vendor/wp-polyfill.min.js?ver=7.4.4' id='wp-polyfill-js'></script>
+<script type='text/javascript' id='wp-polyfill-js-after'>
+( 'fetch' in window ) || document.write( '<script src="https://shopy-science.io/wp-includes/js/dist/vendor/wp-polyfill-fetch.min.js?ver=3.0.0"></scr' + 'ipt>' );( document.contains ) || document.write( '<script src="https://shopy-science.io/wp-includes/js/dist/vendor/wp-polyfill-node-contains.min.js?ver=3.42.0"></scr' + 'ipt>' );( window.DOMRect ) || document.write( '<script src="https://shopy-science.io/wp-includes/js/dist/vendor/wp-polyfill-dom-rect.min.js?ver=3.42.0"></scr' + 'ipt>' );( window.URL && window.URL.prototype && window.URLSearchParams ) || document.write( '<script src="https://shopy-science.io/wp-includes/js/dist/vendor/wp-polyfill-url.min.js?ver=3.6.4"></scr' + 'ipt>' );( window.FormData && window.FormData.prototype.keys ) || document.write( '<script src="https://shopy-science.io/wp-includes/js/dist/vendor/wp-polyfill-formdata.min.js?ver=3.0.12"></scr' + 'ipt>' );( Element.prototype.matches && Element.prototype.closest ) || document.write( '<script src="https://shopy-science.io/wp-includes/js/dist/vendor/wp-polyfill-element-closest.min.js?ver=2.0.2"></scr' + 'ipt>' );
+</script>
+<script type='text/javascript' src='https://shopy-science.io/wp-includes/js/dist/i18n.min.js?ver=9e36b5da09c96c657b0297fd6f7cb1fd' id='wp-i18n-js'></script>
+<script type='text/javascript' id='give-js-extra'>
+/* <![CDATA[ */
+var give_global_vars = {"ajaxurl":"https:\/\/shopy-science.io\/wp-admin\/admin-ajax.php","checkout_nonce":"b6947620a3","currency":"USD","currency_sign":"$","currency_pos":"before","thousands_separator":",","decimal_separator":".","no_gateway":"Please select a payment method.","bad_minimum":"The minimum custom donation amount for this form is","bad_maximum":"The maximum custom donation amount for this form is","general_loading":"Loading...","purchase_loading":"Please Wait...","textForOverlayScreen":"<h3>Processing...<\/h3><p>This will only take a second!<\/p>","number_decimals":"0","is_test_mode":"","give_version":"2.20.0","magnific_options":{"main_class":"give-modal","close_on_bg_click":false},"form_translation":{"payment-mode":"Please select payment mode.","give_first":"Please enter your first name.","give_last":"Please enter your last name.","give_email":"Please enter a valid email address.","give_user_login":"Invalid email address or username.","give_user_pass":"Enter a password.","give_user_pass_confirm":"Enter the password confirmation.","give_agree_to_terms":"You must agree to the terms and conditions."},"confirm_email_sent_message":"Please check your email and click on the link to access your complete donation history.","ajax_vars":{"ajaxurl":"https:\/\/shopy-science.io\/wp-admin\/admin-ajax.php","ajaxNonce":"bc895eeb85","loading":"Loading","select_option":"Please select an option","default_gateway":"manual","permalinks":"1","number_decimals":0},"cookie_hash":"2cb8e6dc8d48b42819f3ea55d516aa3a","session_nonce_cookie_name":"wp-give_session_reset_nonce_2cb8e6dc8d48b42819f3ea55d516aa3a","session_cookie_name":"wp-give_session_2cb8e6dc8d48b42819f3ea55d516aa3a","delete_session_nonce_cookie":"0"};
+var giveApiSettings = {"root":"https:\/\/shopy-science.io\/wp-json\/give-api\/v2\/","rest_base":"give-api\/v2"};
+/* ]]> */
+</script>
+<script type='text/javascript' id='give-js-translations'>
+( function( domain, translations ) {
+	var localeData = translations.locale_data[ domain ] || translations.locale_data.messages;
+	localeData[""].domain = domain;
+	wp.i18n.setLocaleData( localeData, domain );
+} )( "give", { "locale_data": { "messages": { "": {} } } } );
+</script>
+<script type='text/javascript' src='https://shopy-science.io/wp-content/plugins/give/assets/dist/js/give.js?ver=3295e51e80bf4292' id='give-js'></script>
+<script type='text/javascript' id='dt-above-fold-js-extra'>
+/* <![CDATA[ */
+var dtLocal = {"themeUrl":"https:\/\/shopy-science.io\/wp-content\/themes\/dt-the7","passText":"To view this protected post, enter the password below:","moreButtonText":{"loading":"Loading...","loadMore":"Load more"},"postID":"2975","ajaxurl":"https:\/\/shopy-science.io\/wp-admin\/admin-ajax.php","REST":{"baseUrl":"https:\/\/shopy-science.io\/wp-json\/the7\/v1","endpoints":{"sendMail":"\/send-mail"}},"contactMessages":{"required":"One or more fields have an error. Please check and try again.","terms":"Please accept the privacy policy.","fillTheCaptchaError":"Please, fill the captcha."},"captchaSiteKey":"","ajaxNonce":"74190ddd78","pageData":{"type":"page","template":"page","layout":null},"themeSettings":{"smoothScroll":"off","lazyLoading":false,"accentColor":{"mode":"solid","color":"#48a447"},"desktopHeader":{"height":70},"ToggleCaptionEnabled":"disabled","ToggleCaption":"Navigation","floatingHeader":{"showAfter":94,"showMenu":true,"height":70,"logo":{"showLogo":true,"html":"<img class=\" preload-me\" src=\"https:\/\/shopy-science.io\/wp-content\/uploads\/2022\/05\/logo-1.png\" srcset=\"https:\/\/shopy-science.io\/wp-content\/uploads\/2022\/05\/logo-1.png 5333w, https:\/\/shopy-science.io\/wp-content\/uploads\/2022\/05\/logo-1.png 5333w\" width=\"5333\" height=\"4267\"   sizes=\"5333px\" alt=\"Shopy Science\" \/>","url":"https:\/\/shopy-science.io\/"}},"topLine":{"floatingTopLine":{"logo":{"showLogo":false,"html":""}}},"mobileHeader":{"firstSwitchPoint":1250,"secondSwitchPoint":778,"firstSwitchPointHeight":60,"secondSwitchPointHeight":60,"mobileToggleCaptionEnabled":"disabled","mobileToggleCaption":"Menu"},"stickyMobileHeaderFirstSwitch":{"logo":{"html":"<img class=\"\" src=\"https:\/\/shopy-science.io\/wp-content\/uploads\/2021\/02\/Logo_Focus_SVG-01.svg\"  sizes=\"0px\" alt=\"Shopy Science\" \/>"}},"stickyMobileHeaderSecondSwitch":{"logo":{"html":"<img class=\" preload-me\" src=\"https:\/\/shopy-science.io\/wp-content\/uploads\/2022\/05\/logo-1.png\" srcset=\"https:\/\/shopy-science.io\/wp-content\/uploads\/2022\/05\/logo-1.png 5333w, https:\/\/shopy-science.io\/wp-content\/uploads\/2022\/05\/logo-1.png 5333w\" width=\"5333\" height=\"4267\"   sizes=\"5333px\" alt=\"Shopy Science\" \/>"}},"content":{"textColor":"#ffffff","headerColor":"#ffffff"},"sidebar":{"switchPoint":992},"boxedWidth":"1280px","stripes":{"stripe1":{"textColor":"#787d85","headerColor":"#3b3f4a"},"stripe2":{"textColor":"#8b9199","headerColor":"#ffffff"},"stripe3":{"textColor":"#ffffff","headerColor":"#ffffff"}}},"VCMobileScreenWidth":"768"};
+var dtShare = {"shareButtonText":{"facebook":"Share on Facebook","twitter":"Tweet","pinterest":"Pin it","linkedin":"Share on Linkedin","whatsapp":"Share on Whatsapp"},"overlayOpacity":"85"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://shopy-science.io/wp-content/themes/dt-the7/js-lite/above-the-fold.min.js?ver=9.7.2' id='dt-above-fold-js'></script>
+<link rel="https://api.w.org/" href="https://shopy-science.io/wp-json/" /><link rel="alternate" type="application/json" href="https://shopy-science.io/wp-json/wp/v2/pages/2975" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://shopy-science.io/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://shopy-science.io/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 5.6.17" />
+<link rel="canonical" href="https://shopy-science.io/" />
+<link rel='shortlink' href='https://shopy-science.io/' />
+<link rel="alternate" type="application/json+oembed" href="https://shopy-science.io/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fshopy-science.io%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://shopy-science.io/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fshopy-science.io%2F&#038;format=xml" />
+<meta name="generator" content="Give v2.20.0" />
+<meta property="og:site_name" content="Shopy Science" />
+<meta property="og:title" content="NewHome" />
+<meta property="og:url" content="https://shopy-science.io/" />
+<meta property="og:type" content="website" />
+<meta name="generator" content="Powered by WPBakery Page Builder - drag and drop page builder for WordPress."/>
+<meta name="generator" content="Powered by Slider Revolution 6.5.19 - responsive, Mobile-Friendly Slider Plugin for WordPress with comfortable drag and drop interface." />
+<link rel="icon" href="https://shopy-science.io/wp-content/uploads/2022/05/logo-1.png" type="image/png" sizes="32x32"/><script>function setREVStartSize(e){
+			//window.requestAnimationFrame(function() {
+				window.RSIW = window.RSIW===undefined ? window.innerWidth : window.RSIW;
+				window.RSIH = window.RSIH===undefined ? window.innerHeight : window.RSIH;
+				try {
+					var pw = document.getElementById(e.c).parentNode.offsetWidth,
+						newh;
+					pw = pw===0 || isNaN(pw) ? window.RSIW : pw;
+					e.tabw = e.tabw===undefined ? 0 : parseInt(e.tabw);
+					e.thumbw = e.thumbw===undefined ? 0 : parseInt(e.thumbw);
+					e.tabh = e.tabh===undefined ? 0 : parseInt(e.tabh);
+					e.thumbh = e.thumbh===undefined ? 0 : parseInt(e.thumbh);
+					e.tabhide = e.tabhide===undefined ? 0 : parseInt(e.tabhide);
+					e.thumbhide = e.thumbhide===undefined ? 0 : parseInt(e.thumbhide);
+					e.mh = e.mh===undefined || e.mh=="" || e.mh==="auto" ? 0 : parseInt(e.mh,0);
+					if(e.layout==="fullscreen" || e.l==="fullscreen")
+						newh = Math.max(e.mh,window.RSIH);
+					else{
+						e.gw = Array.isArray(e.gw) ? e.gw : [e.gw];
+						for (var i in e.rl) if (e.gw[i]===undefined || e.gw[i]===0) e.gw[i] = e.gw[i-1];
+						e.gh = e.el===undefined || e.el==="" || (Array.isArray(e.el) && e.el.length==0)? e.gh : e.el;
+						e.gh = Array.isArray(e.gh) ? e.gh : [e.gh];
+						for (var i in e.rl) if (e.gh[i]===undefined || e.gh[i]===0) e.gh[i] = e.gh[i-1];
+											
+						var nl = new Array(e.rl.length),
+							ix = 0,
+							sl;
+						e.tabw = e.tabhide>=pw ? 0 : e.tabw;
+						e.thumbw = e.thumbhide>=pw ? 0 : e.thumbw;
+						e.tabh = e.tabhide>=pw ? 0 : e.tabh;
+						e.thumbh = e.thumbhide>=pw ? 0 : e.thumbh;
+						for (var i in e.rl) nl[i] = e.rl[i]<window.RSIW ? 0 : e.rl[i];
+						sl = nl[0];
+						for (var i in nl) if (sl>nl[i] && nl[i]>0) { sl = nl[i]; ix=i;}
+						var m = pw>(e.gw[ix]+e.tabw+e.thumbw) ? 1 : (pw-(e.tabw+e.thumbw)) / (e.gw[ix]);
+						newh =  (e.gh[ix] * m) + (e.tabh + e.thumbh);
+					}
+					var el = document.getElementById(e.c);
+					if (el!==null && el) el.style.height = newh+"px";
+					el = document.getElementById(e.c+"_wrapper");
+					if (el!==null && el) {
+						el.style.height = newh+"px";
+						el.style.display = "block";
+					}
+				} catch(e){
+					console.log("Failure at Presize of Slider:" + e)
+				}
+			//});
+		  };</script>
+<style type="text/css" data-type="vc_custom-css">#top3 p{font-size: 11pt!important;line-height: 1.3em!important;}
+#pilotez p{line-height: 1.5em!important;}</style><style type="text/css" data-type="vc_shortcodes-custom-css">.vc_custom_1653369621873{margin-top: 0px !important;margin-right: 0px !important;margin-left: 0px !important;border-bottom-width: 0px !important;padding-top: 150px !important;padding-right: 0px !important;padding-bottom: 150px !important;padding-left: 0px !important;background-color: #48a447 !important;}.vc_custom_1653370777456{margin-top: 0px !important;margin-bottom: 0px !important;padding-top: 50px !important;padding-right: 0px !important;padding-bottom: 30px !important;padding-left: 0px !important;}.vc_custom_1653370992279{padding-bottom: 0px !important;}.vc_custom_1653370840400{padding-top: 50px !important;padding-bottom: 50px !important;}.vc_custom_1653481667070{padding-bottom: 50px !important;background-color: #ffffff !important;}.vc_custom_1653371130233{padding-top: 30px !important;padding-bottom: 30px !important;}.vc_custom_1653371241436{padding-top: 20px !important;padding-bottom: 10px !important;}.vc_custom_1652995288738{padding-top: 100px !important;padding-bottom: 100px !important;}.vc_custom_1653371168144{padding-right: 0px !important;padding-bottom: 10px !important;padding-left: 0px !important;}.vc_custom_1653075337481{margin-top: 20px !important;}.vc_custom_1653238191170{padding-top: 22px !important;}.vc_custom_1653238201524{padding-top: 22px !important;}.vc_custom_1652996267532{padding-right: 0px !important;padding-left: 0px !important;}</style><noscript><style> .wpb_animate_when_almost_visible { opacity: 1; }</style></noscript><style type="text/css">/** Mega Menu CSS: fs **/</style>
+<style id='the7-custom-inline-css' type='text/css'>
+.sub-nav .menu-item i.fa,
+.sub-nav .menu-item i.fas,
+.sub-nav .menu-item i.far,
+.sub-nav .menu-item i.fab {
+	text-align: center;
+	width: 1.25em;
+}
+.ninja-forms-field  option[selected]  {
+    background: #262626!important;
+}
+.ninja-forms-field  option {
+    background: #262626!important;
+}
+.nf-field-label label{
+	    font-family: "Poppins"!important;
+	    font-weight: 500!important;
+}
+.current-menu-item span {
+	font-weight: bold !important;
+}
+</style>
+</head>
+<body class="home page-template-default page page-id-2975 wp-embed-responsive title-off dt-responsive-on right-mobile-menu-close-icon ouside-menu-close-icon mobile-hamburger-close-bg-enable mobile-hamburger-close-bg-hover-enable  fade-medium-mobile-menu-close-icon fade-medium-menu-close-icon srcset-enabled btn-flat custom-btn-color custom-btn-hover-color phantom-sticky phantom-shadow-decoration phantom-main-logo-on sticky-mobile-header top-header first-switch-logo-left first-switch-menu-right second-switch-logo-left second-switch-menu-right right-mobile-menu layzr-loading-on popup-message-style the7-ver-9.7.2 wpb-js-composer js-comp-ver-6.9.0 vc_responsive">
+<!-- The7 9.7.2 -->
+
+<div id="page" >
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+<div class="masthead inline-header right full-height full-width shadow-mobile-header-decoration small-mobile-menu-icon dt-parent-menu-clickable show-sub-menu-on-hover show-device-logo"  role="banner">
+
+	<div class="top-bar top-bar-empty top-bar-line-hide">
+	<div class="top-bar-bg" ></div>
+	<div class="mini-widgets left-widgets"></div><div class="mini-widgets right-widgets"></div></div>
+
+	<header class="header-bar">
+
+		<div class="branding">
+	<div id="site-title" class="assistive-text">Shopy Science</div>
+	<div id="site-description" class="assistive-text"></div>
+	<a class="same-logo" href="https://shopy-science.io/"><img class=" preload-me" src="https://shopy-science.io/wp-content/uploads/2022/05/logo-1.png" srcset="https://shopy-science.io/wp-content/uploads/2022/05/logo-1.png 5333w, https://shopy-science.io/wp-content/uploads/2022/05/logo-1.png 5333w" width="5333" height="4267"   sizes="5333px" alt="Shopy Science" /><img class="mobile-logo" src="https://shopy-science.io/wp-content/uploads/2021/02/Logo_Focus_SVG-01.svg"  sizes="0px" alt="Shopy Science" /></a></div>
+
+		<ul id="primary-menu" class="main-nav" role="menubar"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-2975 current_page_item menu-item-3108 act first" role="presentation"><a href='https://shopy-science.io/' data-level='1' role="menuitem"><span class="menu-item-text"><span class="menu-text">Home</span></span></a></li> <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-30" role="presentation"><a href='https://shopy-science.io/contact/' data-level='1' role="menuitem"><span class="menu-item-text"><span class="menu-text">Contact</span></span></a></li> </ul>
+		
+	</header>
+
+</div>
+<div class="dt-mobile-header mobile-menu-show-divider">
+	<div class="dt-close-mobile-menu-icon"><div class="close-line-wrap"><span class="close-line"></span><span class="close-line"></span><span class="close-line"></span></div></div>	<ul id="mobile-menu" class="mobile-main-nav" role="menubar">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-2975 current_page_item menu-item-3108 act first" role="presentation"><a href='https://shopy-science.io/' data-level='1' role="menuitem"><span class="menu-item-text"><span class="menu-text">Home</span></span></a></li> <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-30" role="presentation"><a href='https://shopy-science.io/contact/' data-level='1' role="menuitem"><span class="menu-item-text"><span class="menu-text">Contact</span></span></a></li> 	</ul>
+	<div class='mobile-mini-widgets-in-menu'></div>
+</div>
+
+
+
+<div id="main" class="sidebar-none sidebar-divider-vertical">
+
+	
+	<div class="main-gradient"></div>
+	<div class="wf-wrap">
+	<div class="wf-container-main">
+
+	
+
+
+	<div id="content" class="content" role="main">
+
+		<section id="hero" data-vc-full-width="true" data-vc-full-width-init="false" class="vc_section vc_custom_1653369621873 vc_section-has-fill vc_section-o-content-middle vc_section-flex"><div class="vc_row wpb_row vc_row-fluid"><div class="wpb_column vc_column_container vc_col-sm-12"><div class="vc_column-inner"><div class="wpb_wrapper"><h1 style="font-size: 60px;color: #ffffff;text-align: center;font-family:Roboto;font-weight:700;font-style:normal" class="vc_custom_heading" >Transform<br />
+your marketing data<br />
+into growth points</h1>
+	<div class="wpb_text_column wpb_content_element  vc_custom_1653075337481" id="hero-text">
+		<div class="wpb_wrapper">
+			<p style="text-align: center;"><strong><span style="color: #ffffff; font-size: 18pt;">Measure the performance of your Shopify store&#8217;s marketing campaigns</span></strong></p>
+
+		</div>
+	</div>
+</div></div></div></div></section><div class="vc_row-full-width vc_clearfix"></div><section id="icon-content" class="vc_section vc_custom_1653370777456 vc_section-o-content-middle vc_section-flex"><div class="vc_row wpb_row vc_row-fluid"><div class="wpb_column vc_column_container vc_col-sm-12"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p style="text-align: center;"><strong><span style="font-size: 24pt; color: #000000;">What is our speciality?</span></strong><br />
+<strong><span style="font-size: 24pt; color: #000000;">&#x200d;</span></strong><br />
+<strong><span style="font-size: 24pt; color: #000000;">A tool for tracking the effectiveness of your marketing initiatives.</span></strong></p>
+
+		</div>
+	</div>
+</div></div></div></div><div id="top3" class="vc_row wpb_row vc_row-fluid"><div class="wpb_column vc_column_container vc_col-sm-4"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div  class="wpb_single_image wpb_content_element vc_align_left  vc_custom_1653238191170">
+		
+		<figure class="wpb_wrapper vc_figure">
+			<div class="vc_single_image-wrapper   vc_box_border_grey"><img class="vc_single_image-img " src="https://shopy-science.io/wp-content/uploads/2022/05/000-250x250.jpg" width="250" height="250" alt="000" title="000"  data-dt-location="https://shopy-science.io/newhome/attachment/000/" /></div>
+		</figure>
+	</div>
+<h3 style="font-size: 16px;color: #000000;text-align: left;font-family:Roboto;font-weight:700;font-style:normal" class="vc_custom_heading" >Boost your attribution</h3>
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">Identify the marketing levers that really work and maximize your media and advertising investments.</span></p>
+
+		</div>
+	</div>
+</div></div></div><div class="wpb_column vc_column_container vc_col-sm-4"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div  class="wpb_single_image wpb_content_element vc_align_left  vc_custom_1653238201524">
+		
+		<figure class="wpb_wrapper vc_figure">
+			<div class="vc_single_image-wrapper   vc_box_border_grey"><img width="293" height="248" src="https://shopy-science.io/wp-content/uploads/2022/05/111.jpg" class="vc_single_image-img attachment-full" alt="" loading="lazy" title="111"  data-dt-location="https://shopy-science.io/newhome/attachment/111/" /></div>
+		</figure>
+	</div>
+<h3 style="font-size: 16px;color: #000000;text-align: left;font-family:Roboto;font-weight:700;font-style:normal" class="vc_custom_heading" >Optimize all your data</h3>
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">Centralize all your media data (Facebook, Google, Ads, Influence, Social) and CRM (Customers, Products, Attribution).</span></p>
+
+		</div>
+	</div>
+</div></div></div><div class="wpb_column vc_column_container vc_col-sm-4"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div  class="wpb_single_image wpb_content_element vc_align_left">
+		
+		<figure class="wpb_wrapper vc_figure">
+			<div class="vc_single_image-wrapper   vc_box_border_grey"><img width="305" height="274" src="https://shopy-science.io/wp-content/uploads/2022/05/222.jpg" class="vc_single_image-img attachment-full" alt="" loading="lazy" title="222" srcset="https://shopy-science.io/wp-content/uploads/2022/05/222.jpg 305w, https://shopy-science.io/wp-content/uploads/2022/05/222-300x270.jpg 300w" sizes="(max-width: 305px) 100vw, 305px"  data-dt-location="https://shopy-science.io/newhome/attachment/222/" /></div>
+		</figure>
+	</div>
+<h3 style="font-size: 16px;color: #000000;text-align: left;font-family:Roboto;font-weight:700;font-style:normal" class="vc_custom_heading" >Increase your sales</h3>
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">Benefit from operational recommendations combined with the power of our tool to achieve your sales objectives.</span></p>
+
+		</div>
+	</div>
+</div></div></div></div></section><section id="service" class="vc_section vc_custom_1653370992279"><div class="vc_row wpb_row vc_row-fluid"><div class="wpb_column vc_column_container vc_col-sm-12"><div class="vc_column-inner"><div class="wpb_wrapper"><h2 style="font-size: 32px;color: #333333;text-align: center;font-family:Roboto;font-weight:700;font-style:normal" class="vc_custom_heading" >Premium support service</h2>
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p style="text-align: center;"><strong><span style="color: #000000;">For stores wishing to go further, ShopyScience also offers a premium support service to optimize the use of the tool.</span></strong></p>
+
+		</div>
+	</div>
+
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">1- “Garbage In, Garbage Out”: Poor quality input will produce faulty output. Incomplete or inconsistent input data will distort the results. ShopyScience offers to analyze your input data with you to verify its relevance.</span></p>
+<p><span style="color: #000000;">2- Make sense of the data: ShopyScience has simplified the consolidation of your data to make your dashboards simple and understandable in your application. Nevertheless, for those who feel the need, we propose an accompaniment for the interpretation of your data. We can build with you the insights that are really important for you before leaving you in full autonomy.</span></p>
+
+		</div>
+	</div>
+<style type="text/css" data-type="the7_shortcodes-inline-css">#default-btn-8877119128eea240e516f5f326d544c7.ico-right-side > i {
+  margin-right: 0px;
+  margin-left: 8px;
+}
+#default-btn-8877119128eea240e516f5f326d544c7 > i {
+  margin-right: 8px;
+}
+#default-btn-8877119128eea240e516f5f326d544c7 * {
+  vertical-align: middle;
+}
+</style><div class="btn-align-center"><a href="https://shopy-science.io/contact/" class="default-btn-shortcode dt-btn dt-btn-l link-hover-off " id="default-btn-8877119128eea240e516f5f326d544c7"><span>Contact Us</span></a></div></div></div></div></div></section><section id="pilotez" class="vc_section vc_custom_1653370840400 vc_section-o-content-middle vc_section-flex"><div class="vc_row wpb_row vc_row-fluid vc_row-o-content-middle vc_row-flex"><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div  class="wpb_single_image wpb_content_element vc_align_center">
+		
+		<figure class="wpb_wrapper vc_figure">
+			<div class="vc_single_image-wrapper   vc_box_border_grey"><img class="vc_single_image-img " src="https://shopy-science.io/wp-content/uploads/2022/05/Social000-335x450.jpg" width="335" height="450" alt="Social000" title="Social000"  data-dt-location="https://shopy-science.io/newhome/social000/" /></div>
+		</figure>
+	</div>
+</div></div></div><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;"><strong><span style="font-size: 24pt;">Manage your business and marketing campaigns in a single application</span></strong></span></p>
+
+		</div>
+	</div>
+
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">LTV Analysis</span><br />
+<span style="color: #000000;">Product analysis</span><br />
+<span style="color: #000000;">Attribution marketing</span><br />
+<span style="color: #000000;">Cross-media</span><br />
+<span style="color: #000000;">Cross-device</span></p>
+
+		</div>
+	</div>
+</div></div></div></div></section><section id="image" data-vc-full-width="true" data-vc-full-width-init="false" data-vc-stretch-content="true" class="vc_section vc_custom_1653481667070 vc_section-has-fill"><div class="vc_row wpb_row vc_row-fluid"><div class="wpb_column vc_column_container vc_col-sm-12"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div  class="wpb_single_image wpb_content_element vc_align_center">
+		
+		<figure class="wpb_wrapper vc_figure">
+			<div class="vc_single_image-wrapper   vc_box_border_grey"><img width="7125" height="2936" src="https://shopy-science.io/wp-content/uploads/2022/05/Shopy-banner-01.png" class="vc_single_image-img attachment-full" alt="" loading="lazy" title="Shopy banner-01" srcset="https://shopy-science.io/wp-content/uploads/2022/05/Shopy-banner-01.png 7125w, https://shopy-science.io/wp-content/uploads/2022/05/Shopy-banner-01-300x124.png 300w, https://shopy-science.io/wp-content/uploads/2022/05/Shopy-banner-01-1024x422.png 1024w, https://shopy-science.io/wp-content/uploads/2022/05/Shopy-banner-01-768x316.png 768w, https://shopy-science.io/wp-content/uploads/2022/05/Shopy-banner-01-1536x633.png 1536w, https://shopy-science.io/wp-content/uploads/2022/05/Shopy-banner-01-2048x844.png 2048w" sizes="(max-width: 7125px) 100vw, 7125px"  data-dt-location="https://shopy-science.io/newhome/shopy-banner-01/" /></div>
+		</figure>
+	</div>
+</div></div></div></div></section><div class="vc_row-full-width vc_clearfix"></div><section id="application" class="vc_section vc_section-o-content-middle vc_section-flex"><div class="vc_row wpb_row vc_row-fluid"><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div  class="wpb_single_image wpb_content_element vc_align_left">
+		
+		<figure class="wpb_wrapper vc_figure">
+			<div class="vc_single_image-wrapper   vc_box_border_grey"><img width="1218" height="884" src="https://shopy-science.io/wp-content/uploads/2022/05/img6.png" class="vc_single_image-img attachment-full" alt="" loading="lazy" title="img6" srcset="https://shopy-science.io/wp-content/uploads/2022/05/img6.png 1218w, https://shopy-science.io/wp-content/uploads/2022/05/img6-300x218.png 300w, https://shopy-science.io/wp-content/uploads/2022/05/img6-1024x743.png 1024w, https://shopy-science.io/wp-content/uploads/2022/05/img6-768x557.png 768w" sizes="(max-width: 1218px) 100vw, 1218px"  data-dt-location="https://shopy-science.io/newhome/img6/" /></div>
+		</figure>
+	</div>
+</div></div></div><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div class="wpb_text_column wpb_content_element " id="titre">
+		<div class="wpb_wrapper">
+			<p><strong><span style="font-size: 24pt; color: #000000;">The essential tool to manage the marketing strategy of e-commerce sites</span></strong></p>
+
+		</div>
+	</div>
+
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">The best e-commerce platforms are those that use data the best! Since this process is complicated and costly, Shopy-Science.io has created a simple software that automatically aggregates and analyzes all your customer and marketing data (media, CRM, organic, paid, ..).</span></p>
+
+		</div>
+	</div>
+</div></div></div></div></section><section id="party" class="vc_section vc_custom_1653371130233"><div class="vc_row wpb_row vc_row-fluid"><div class="wpb_column vc_column_container vc_col-sm-12"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #49a447;"><strong><span style="font-size: 18pt;">Party On</span></strong></span><br />
+<span style="color: #000000;"><strong><span style="font-size: 18pt;">Identify your best performing acquisition channels </span></strong></span></p>
+<p><span style="color: #000000;">ShopyScience has a thorough and unbiased perspective of your data, which no other analytics solution can leverage, thanks to its integration with Shopify and its proprietary technology. </span></p>
+<p><span style="color: #000000;">As a result, our system will consistently measure the impact of your marketing efforts in a <strong>more dependable and practical manner</strong>. The simple and quick way to make the most of your marketing data.</span></p>
+
+		</div>
+	</div>
+</div></div></div></div></section><section id="fonctioner" class="vc_section"><div class="vc_row wpb_row vc_row-fluid"><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;"><strong><span style="font-size: 18pt;">How does shopy-science.io work? </span></strong></span></p>
+
+		</div>
+	</div>
+</div></div></div><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper"></div></div></div></div></section><div id="party" class="vc_row wpb_row vc_row-fluid"><div class="wpb_column vc_column_container vc_col-sm-4"><div class="vc_column-inner vc_custom_1652996267532"><div class="wpb_wrapper"><h5 style="color: #49a447;text-align: left;font-family:Roboto;font-weight:700;font-style:normal" class="vc_custom_heading" >01</h5>
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;"><strong><span style="font-size: 18pt;">Native-Shopify </span></strong></span></p>
+
+		</div>
+	</div>
+
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">Activate the Shopy-Science.io app directly in your Shopify store.</span></p>
+
+		</div>
+	</div>
+</div></div></div><div class="wpb_column vc_column_container vc_col-sm-4"><div class="vc_column-inner"><div class="wpb_wrapper"><h5 style="color: #49a447;text-align: left;font-family:Roboto;font-weight:700;font-style:normal" class="vc_custom_heading" >02</h5>
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;"><strong><span style="font-size: 18pt;">Connecting social media &amp; services</span></strong></span></p>
+
+		</div>
+	</div>
+
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">Upon your approval, ShopyScience will connect to your Facebook account and Google Ads service.</span></p>
+
+		</div>
+	</div>
+</div></div></div><div class="wpb_column vc_column_container vc_col-sm-4"><div class="vc_column-inner"><div class="wpb_wrapper"><h5 style="color: #49a447;text-align: left;font-family:Roboto;font-weight:700;font-style:normal" class="vc_custom_heading" >03</h5>
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;"><strong><span style="font-size: 18pt;">Allocation</span></strong></span></p>
+
+		</div>
+	</div>
+
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">To optimize results, a sub-domain will be allocated to the Shopy-science.io data tracker. The sub-domain will be linked to the store’s digital domain.</span></p>
+
+		</div>
+	</div>
+</div></div></div></div><div id="text-blue" class="vc_row wpb_row vc_row-fluid"><div class="wpb_column vc_column_container vc_col-sm-12"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p style="text-align: center;"><span style="font-size: 18pt; color: #5fba46;"><strong>That’s it! Your sales and marketing data analysis are now available in the app<br />
+Shopy-Science.io.</strong></span></p>
+
+		</div>
+	</div>
+</div></div></div></div><section id="party" class="vc_section vc_custom_1653371241436"><div class="vc_row wpb_row vc_row-fluid"><div class="wpb_column vc_column_container vc_col-sm-12"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;"><strong><span style="font-size: 18pt;">Why Shopy-Science.io ? </span></strong></span></p>
+
+		</div>
+	</div>
+</div></div></div></div><div class="vc_row wpb_row vc_row-fluid vc_row-o-content-middle vc_row-flex"><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div  class="wpb_single_image wpb_content_element vc_align_left">
+		
+		<figure class="wpb_wrapper vc_figure">
+			<div class="vc_single_image-wrapper   vc_box_border_grey"><img width="964" height="958" src="https://shopy-science.io/wp-content/uploads/2022/05/60dc83e0f349ebb087db7e9f_illustration-9.png" class="vc_single_image-img attachment-full" alt="" loading="lazy" title="60dc83e0f349ebb087db7e9f_illustration-9" srcset="https://shopy-science.io/wp-content/uploads/2022/05/60dc83e0f349ebb087db7e9f_illustration-9.png 964w, https://shopy-science.io/wp-content/uploads/2022/05/60dc83e0f349ebb087db7e9f_illustration-9-300x298.png 300w, https://shopy-science.io/wp-content/uploads/2022/05/60dc83e0f349ebb087db7e9f_illustration-9-150x150.png 150w, https://shopy-science.io/wp-content/uploads/2022/05/60dc83e0f349ebb087db7e9f_illustration-9-768x763.png 768w" sizes="(max-width: 964px) 100vw, 964px"  data-dt-location="https://shopy-science.io/newhome/60dc83e0f349ebb087db7e9f_illustration-9/" /></div>
+		</figure>
+	</div>
+</div></div></div><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="font-size: 18pt;"><strong><span style="color: #000000;">1. To develop a precise knowledge of each of your customers</span></strong></span></p>
+
+		</div>
+	</div>
+
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">Who are your customers? What products do they buy in priority on your online store? What is their life time value? What’s the churn rate and online behavior?</span><br />
+<span style="color: #000000;">Shopy-Science.io provides you with all the customer analysis you need to manage your marketing strategy.</span></p>
+
+		</div>
+	</div>
+</div></div></div></div><div class="vc_row wpb_row vc_row-fluid vc_row-o-content-middle vc_row-flex"><div class="wpb_column vc_column_container vc_col-sm-6 vc_hidden-lg vc_hidden-md vc_hidden-sm"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div  class="wpb_single_image wpb_content_element vc_align_left">
+		
+		<figure class="wpb_wrapper vc_figure">
+			<div class="vc_single_image-wrapper   vc_box_border_grey"><img width="1440" height="1213" src="https://shopy-science.io/wp-content/uploads/2022/05/60dc8413213a408b8789147b_illustration-4.png" class="vc_single_image-img attachment-full" alt="" loading="lazy" title="60dc8413213a408b8789147b_illustration-4" srcset="https://shopy-science.io/wp-content/uploads/2022/05/60dc8413213a408b8789147b_illustration-4.png 1440w, https://shopy-science.io/wp-content/uploads/2022/05/60dc8413213a408b8789147b_illustration-4-300x253.png 300w, https://shopy-science.io/wp-content/uploads/2022/05/60dc8413213a408b8789147b_illustration-4-1024x863.png 1024w, https://shopy-science.io/wp-content/uploads/2022/05/60dc8413213a408b8789147b_illustration-4-768x647.png 768w" sizes="(max-width: 1440px) 100vw, 1440px"  data-dt-location="https://shopy-science.io/newhome/60dc8413213a408b8789147b_illustration-4/" /></div>
+		</figure>
+	</div>
+</div></div></div></div><div class="vc_row wpb_row vc_row-fluid vc_row-o-content-middle vc_row-flex"><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000; font-size: 18pt;"><strong>2. To easily measure the ROI of all your acquisition campaigns.</strong></span></p>
+
+		</div>
+	</div>
+
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">What was the turnover generated by your newsletters? Which marketing levers and media are performing best? And for what budget? On the contrary, which ones are making you lose money and which ones should you do without? With the reporting tools provided by Shopy-Science.io, each acquisition campaign leads to precise analyses to help you make your decisions.</span></p>
+
+		</div>
+	</div>
+</div></div></div><div class="wpb_column vc_column_container vc_col-sm-6 vc_hidden-xs"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div  class="wpb_single_image wpb_content_element vc_align_left">
+		
+		<figure class="wpb_wrapper vc_figure">
+			<div class="vc_single_image-wrapper   vc_box_border_grey"><img width="1440" height="1213" src="https://shopy-science.io/wp-content/uploads/2022/05/60dc8413213a408b8789147b_illustration-4.png" class="vc_single_image-img attachment-full" alt="" loading="lazy" title="60dc8413213a408b8789147b_illustration-4" srcset="https://shopy-science.io/wp-content/uploads/2022/05/60dc8413213a408b8789147b_illustration-4.png 1440w, https://shopy-science.io/wp-content/uploads/2022/05/60dc8413213a408b8789147b_illustration-4-300x253.png 300w, https://shopy-science.io/wp-content/uploads/2022/05/60dc8413213a408b8789147b_illustration-4-1024x863.png 1024w, https://shopy-science.io/wp-content/uploads/2022/05/60dc8413213a408b8789147b_illustration-4-768x647.png 768w" sizes="(max-width: 1440px) 100vw, 1440px"  data-dt-location="https://shopy-science.io/newhome/60dc8413213a408b8789147b_illustration-4/" /></div>
+		</figure>
+	</div>
+</div></div></div></div><div class="vc_row wpb_row vc_row-fluid vc_row-o-content-middle vc_row-flex"><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div  class="wpb_single_image wpb_content_element vc_align_left">
+		
+		<figure class="wpb_wrapper vc_figure">
+			<div class="vc_single_image-wrapper   vc_box_border_grey"><img width="1513" height="923" src="https://shopy-science.io/wp-content/uploads/2022/05/60dc84415063f7282699857b_illustration-3.png" class="vc_single_image-img attachment-full" alt="" loading="lazy" title="60dc84415063f7282699857b_illustration-3" srcset="https://shopy-science.io/wp-content/uploads/2022/05/60dc84415063f7282699857b_illustration-3.png 1513w, https://shopy-science.io/wp-content/uploads/2022/05/60dc84415063f7282699857b_illustration-3-300x183.png 300w, https://shopy-science.io/wp-content/uploads/2022/05/60dc84415063f7282699857b_illustration-3-1024x625.png 1024w, https://shopy-science.io/wp-content/uploads/2022/05/60dc84415063f7282699857b_illustration-3-768x469.png 768w" sizes="(max-width: 1513px) 100vw, 1513px"  data-dt-location="https://shopy-science.io/newhome/60dc84415063f7282699857b_illustration-3/" /></div>
+		</figure>
+	</div>
+</div></div></div><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000; font-size: 18pt;"><strong>3. To allocate the right marketing budget to the right target, with the right objective</strong></span></p>
+
+		</div>
+	</div>
+
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">Allocating a campaign is still too often done with a wet finger. Between your email campaigns, your google Ads campaigns, Facebook and Instagram ads, your SEO actions, etc&#8230; the customer journey becomes more complex and your customer data loses relevance because of missing data. The more data you have, the more difficult it is to analyze, and the more you doubt its reliability. Shopy-Science.io is able to identify precisely each of your customers and their buying journey, to draw reliable indicators and help you to pilot your activity.</span></p>
+
+		</div>
+	</div>
+</div></div></div></div></section><section class="vc_section vc_custom_1652995288738"></section><section id="party" class="vc_section"><div class="vc_row wpb_row vc_row-fluid"><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper"><h2 style="font-size: 18pt;color: #333333;text-align: left;font-family:Roboto;font-weight:700;font-style:normal" class="vc_custom_heading" >Turn your marketing data into points of growth</h2>
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">&#x200d;For all e-merchants on Shopify</span></p>
+
+		</div>
+	</div>
+</div></div></div><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper"></div></div></div></div><div class="vc_row wpb_row vc_row-fluid"><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper"><h2 style="font-size: 18pt;color: #49a447;text-align: left;font-family:Roboto;font-weight:700;font-style:normal" class="vc_custom_heading" >Does Shopy-Science.io use the<br />
+CRM data of e-merchants?</h2>
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">Yes, and that&#8217;s what makes our analyses so powerful, because we observe the effects of marketing actions directly on your customers who consent to them.</span></p>
+
+		</div>
+	</div>
+</div></div></div><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper"><h2 style="font-size: 18pt;color: #49a447;text-align: left;font-family:Roboto;font-weight:700;font-style:normal" class="vc_custom_heading" >What is the added value of<br />
+Shopy-Scinence.io compared to already available<br />
+tools like Google Analytics and Facebook Attribution?</h2>
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">Because they are third-party tools, Google and Facebook data trackers are not compatible with the GDPR. On the other hand, Shopy-Science.io uses a 1st party tracker that allows you to process your own data directly.</span></p>
+
+		</div>
+	</div>
+</div></div></div></div><div class="vc_row wpb_row vc_row-fluid"><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper"><h2 style="font-size: 18pt;color: #49a447;text-align: left;font-family:Roboto;font-weight:700;font-style:normal" class="vc_custom_heading" >Which Ads media can be processed<br />
+with Shopy-Science.io?</h2>
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">Google Ads, Facebook, Instagram, Snapchat, Bing, TikTok, etc&#8230; Shopy-Science.io is compatible with all major platforms, for paid (search, shopping, ads&#8230;) and organic levers.</span></p>
+
+		</div>
+	</div>
+</div></div></div><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper"><h2 style="font-size: 18pt;color: #49a447;text-align: left;font-family:Roboto;font-weight:700;font-style:normal" class="vc_custom_heading" >How accurate is the analysis provided by Shopy-Science.io?</h2>
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">At the finest level! We analyze each clicked link and reconstitute our AI analyses at aggregate levels (Campaign and AdSet). It is precisely thanks to this unique method that we are more accurate in our ROI/ROAS calculations.</span></p>
+
+		</div>
+	</div>
+</div></div></div></div><div class="vc_row wpb_row vc_row-fluid"><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper"><h2 style="font-size: 18pt;color: #49a447;text-align: left;font-family:Roboto;font-weight:700;font-style:normal" class="vc_custom_heading" >How to make sure that Shopy-Science.io complies with the RGPD?</h2>
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">Like any European digital service, Shopy-Science.io is subject to the RGPD framework. We do not compromise in the face of the absolute necessity to protect data and to respect the principle of free and informed consent of the user.</span></p>
+
+		</div>
+	</div>
+</div></div></div><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper"><h2 style="font-size: 18pt;color: #49a447;text-align: left;font-family:Roboto;font-weight:700;font-style:normal" class="vc_custom_heading" >What is the methodology implemented by Shopy-Science.io in the cookie-less /1st party context?</h2>
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">In addition to full compliance with the RGPD, we are not impacted by the new technical conditions imposed by browsers because our solution feeds on data from the Shopify ecosystem and not on browsing data. It is therefore reserved strictly for the use of the advertiser in the context of its activity as a merchant within Shopify.</span></p>
+
+		</div>
+	</div>
+</div></div></div></div><div class="vc_row wpb_row vc_row-fluid"><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper"><h2 style="font-size: 18pt;color: #49a447;text-align: left;font-family:Roboto;font-weight:700;font-style:normal" class="vc_custom_heading" >What is the difference between the data offered by Shopy-Science.io and the data already available in my Shopify account?</h2>
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">Shopy-Science.io doesn&#8217;t just extract data from different sources &#8211; facebook, google analytics, shopify&#8230; &#8211; to present them to you. The application produces and makes available to you a set of directly actionable analyses and recommendations.</span></p>
+
+		</div>
+	</div>
+</div></div></div><div class="wpb_column vc_column_container vc_col-sm-6"><div class="vc_column-inner"><div class="wpb_wrapper"><h2 style="font-size: 18pt;color: #49a447;text-align: left;font-family:Roboto;font-weight:700;font-style:normal" class="vc_custom_heading" >What is the added value of the analyses proposed by Shopy-Science.io compared to those already available with competing solutions?</h2>
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #000000;">The great strength of Shopy-Science.io is above all to be a tool for the exclusive use of e-retailers. It is designed by e-retailers, for e-retailers, with the help of data scientists, data analysts and experienced data officers.</span></p>
+
+		</div>
+	</div>
+</div></div></div></div></section><div id="party" class="vc_row wpb_row vc_row-fluid vc_custom_1653371168144"><div class="wpb_column vc_column_container vc_col-sm-12"><div class="vc_column-inner"><div class="wpb_wrapper">
+	<div class="wpb_text_column wpb_content_element " >
+		<div class="wpb_wrapper">
+			<p><span style="color: #49a447;"><strong><span style="font-size: 18pt;">Party On</span></strong></span><br />
+<span style="color: #000000;"><strong><span style="font-size: 18pt;">Identify your best performing acquisition channels </span></strong></span></p>
+<p><span style="color: #000000;">Influence (Instragram, Tiktok, Youtube, ..), SEO, Google Ads, Social Media (Facebook, Pinterest, ..), CRM.<br />
+Thanks to its integration with Shopify and its exclusive technology, Quanticfy has an exhaustive and unbiased view of your data, which no other analytics solution can exploit.<br />
+That&#8217;s why our solution will always measure the impact of your marketing actions in a more reliable and realistic way. The quick and easy tool to get the most out of your marketing data.</span></p>
+
+		</div>
+	</div>
+</div></div></div></div>
+
+	</div><!-- #content -->
+
+	
+
+
+			</div><!-- .wf-container -->
+		</div><!-- .wf-wrap -->
+
+	
+	</div><!-- #main -->
+
+	
+
+	
+	<!-- !Footer -->
+	<footer id="footer" class="footer">
+
+		
+			<div class="wf-wrap">
+				<div class="wf-container-footer">
+					<div class="wf-container">
+						<section id="media_image-2" class="widget widget_media_image wf-cell wf-1-3"><img width="200" height="120" src="https://shopy-science.io/wp-content/uploads/2022/05/logo_blanc.png" class="image wp-image-2949  attachment-full size-full" alt="" loading="lazy" style="max-width: 100%; height: auto;" /></section><section id="custom_html-3" class="widget_text widget widget_custom_html wf-cell wf-1-3"><div class="textwidget custom-html-widget"><div>
+	<ul class="fmenu">
+		<li><a href="#">Home</a></li>
+		<li><a href="#">CONTACT</a></li>
+	</ul>
+	<hr>
+	<ul class="fsocial">
+		<li><a href="https://www.linkedin.com/company/shopy-science"><i class="icomoon-the7-font-linkedin"></i></a></li>
+		<li><a href="https://www.instagram.com/shopyscience/"><i class="icomoon-the7-font-instagram"></i></a></li>
+		<li><a href="https://www.facebook.com/ShopyScience/"><i class="icomoon-the7-font-facebook"></i></a></li>
+	</ul>
+</div></div></section><section id="text-2" class="widget widget_text wf-cell wf-1-3">			<div class="textwidget"><p><a href="#" target="_blank" rel="noopener">Legal notice</a><br />
+<a href="#" target="_blank" rel="noopener">Cookie policy</a><br />
+<a href="#" target="_blank" rel="noopener">Terms of use</a></p>
+<p>Shopy-Science. All rights reserved.</p>
+</div>
+		</section>					</div><!-- .wf-container -->
+				</div><!-- .wf-container-footer -->
+			</div><!-- .wf-wrap -->
+
+			
+	</footer><!-- #footer -->
+
+
+	<a href="#" class="scroll-top"><span class="screen-reader-text">Go to Top</span></a>
+
+</div><!-- #page -->
+
+
+		<script>
+			window.RS_MODULES = window.RS_MODULES || {};
+			window.RS_MODULES.modules = window.RS_MODULES.modules || {};
+			window.RS_MODULES.waiting = window.RS_MODULES.waiting || [];
+			window.RS_MODULES.defered = true;
+			window.RS_MODULES.moduleWaiting = window.RS_MODULES.moduleWaiting || {};
+			window.RS_MODULES.type = 'compiled';
+		</script>
+		  <script>
+	  function showDiv(id){
+		  jQuery(''+ id +'').show(200);
+	  }
+	  var defaultContactLink = jQuery('#slider-11-slide-11-layer-25').attr('href');
+	  
+	// Init FR link
+	jQuery('#slider-11-slide-11-layer-25').attr('href', defaultContactLink + '?fr');
+	jQuery('#slider-24-slide-22-layer-25').attr('href', defaultContactLink + '?fr');
+	
+	  // France link
+	jQuery('.image_bouton_France').on('click mouseover', function () {
+		jQuery('#slider-11-slide-11-layer-25').attr('href', defaultContactLink + '?fr');
+		jQuery('#slider-24-slide-22-layer-25').attr('href', defaultContactLink + '?fr');
+	});
+	  // allemagne link
+	jQuery('.image_bouton_allemagne').on('click mouseover', function () {
+		jQuery('#slider-11-slide-11-layer-25').attr('href', defaultContactLink + '?al');
+		jQuery('#slider-24-slide-22-layer-25').attr('href', defaultContactLink + '?al');
+	});
+	  // Tunis link  
+	jQuery('.image_bouton_Tunis').on('click mouseover', function () {
+		jQuery('#slider-11-slide-11-layer-25').attr('href', defaultContactLink + '?tn');
+		jQuery('#slider-24-slide-22-layer-25').attr('href', defaultContactLink + '?tn');
+	});
+	  jQuery('#bouton_France01, #bouton_France02, #bouton_France03').on('click mouseover', function () {
+						jQuery("#nf-field-32 > option:nth-child(1)").prop("selected", true);
+						jQuery("#nf-field-32 > option:nth-child(2)").prop("selected", false),
+						jQuery("#nf-field-32 > option:nth-child(3)").prop("selected", false);
+		  
+					jQuery('#contact-al-bloc').hide();
+					jQuery('#contact-fr-bloc').show();
+					jQuery('#contact-tn-bloc').hide();
+					});
+	  
+	  
+					jQuery('#bouton_Tunis01, #bouton_Tunis02, #bouton_Tunis03').on('click mouseover', function () {
+						jQuery("#nf-field-32 > option:nth-child(1)").prop("selected", false);
+						jQuery("#nf-field-32 > option:nth-child(2)").prop("selected", true);
+						jQuery("#nf-field-32 > option:nth-child(3)").prop("selected", false);
+						
+					jQuery('#contact-al-bloc').hide();
+					jQuery('#contact-fr-bloc').hide();
+					jQuery('#contact-tn-bloc').show();
+					});
+	  
+					jQuery('#bouton_allemagne01, #bouton_allemagne02, #bouton_allemagne03').on('click mouseover', function () {
+						jQuery("#nf-field-32 > option:nth-child(1)").prop("selected", false);
+						jQuery("#nf-field-32 > option:nth-child(2)").prop("selected", false);
+						jQuery("#nf-field-32 > option:nth-child(3)").prop("selected", true);
+						
+						
+					jQuery('#contact-al-bloc').show();
+					jQuery('#contact-fr-bloc').hide();
+					jQuery('#contact-tn-bloc').hide();
+					});
+	
+</script>
+  			<script>
+				function changeCountryConfig(){
+					return true ;
+				}
+			</script>
+						<script>
+					function changeCountryConfigV3(code){ return true;}
+				</script>
+			<script type="text/html" id="wpb-modifications"></script><link rel='stylesheet' id='vc_google_fonts_roboto100100italic300300italicregularitalic500500italic700700italic900900italic-css'  href='https://fonts.googleapis.com/css?family=Roboto%3A100%2C100italic%2C300%2C300italic%2Cregular%2Citalic%2C500%2C500italic%2C700%2C700italic%2C900%2C900italic&#038;ver=6.9.0' type='text/css' media='all' />
+<link rel='stylesheet' id='rs-plugin-settings-css'  href='https://shopy-science.io/wp-content/plugins/revslider/public/assets/css/rs6.css?ver=6.5.19' type='text/css' media='all' />
+<style id='rs-plugin-settings-inline-css' type='text/css'>
+#rs-demo-id {}
+</style>
+<script type='text/javascript' src='https://shopy-science.io/wp-content/themes/dt-the7/js-lite/main.min.js?ver=9.7.2' id='dt-main-js'></script>
+<script type='text/javascript' src='https://shopy-science.io/wp-content/plugins/motopress-hotel-booking-lite/vendors/jquery.serializeJSON/jquery.serializejson.min.js?ver=6.2.2' id='mphb-jquery-serialize-json-js'></script>
+<script type='text/javascript' src='https://shopy-science.io/wp-includes/js/dist/vendor/lodash.min.js?ver=4.17.21' id='lodash-js'></script>
+<script type='text/javascript' id='lodash-js-after'>
+window.lodash = _.noConflict();
+</script>
+<script type='text/javascript' src='https://shopy-science.io/wp-includes/js/dist/url.min.js?ver=1b4bb2b3f526a1db366ca3147ac39562' id='wp-url-js'></script>
+<script type='text/javascript' id='mphb-global-js-js-extra'>
+/* <![CDATA[ */
+var MPHB = {"_data":{"settings":{"currency":{"code":"USD","price_format":"<span class=\"mphb-currency\">&#36;<\/span>%s","decimals":2,"decimal_separator":".","thousand_separator":","},"siteName":"Shopy Science","currentLanguage":"en","firstDay":1,"numberOfMonthCalendar":2,"numberOfMonthDatepicker":2,"dateFormat":"dd\/mm\/yyyy","dateFormatWp":"m\/d\/Y","dateTransferFormat":"yyyy-mm-dd","useBilling":false,"useCoupons":false,"useDeposit":false,"datepickerClass":"","countryRequired":true,"fullAddressRequired":false,"isDirectBooking":false},"isAdmin":false,"today":"2026-08-03","restApiUrl":"https:\/\/shopy-science.io\/wp-json\/mphb\/v1","restApiWpNonce":"0d054872ca","ajaxUrl":"https:\/\/shopy-science.io\/wp-admin\/admin-ajax.php","nonces":{"mphb_update_rate_prices":"974dffdb04","mphb_get_billing_fields":"4358f59eed","mphb_apply_coupon":"22a517a4b3","mphb_get_accommodation_list":"0da4c47ae2","mphb_get_room_type_availability_data":"0aae722c11","mphb_update_checkout_info":"6b980d97dc"},"translations":{"errorHasOccured":"An error has occurred, please try again later.","booked":"Booked","buffer":"Buffer time.","pending":"Pending","available":"Available","notAvailable":"Not available","earlierMinAdvance":"This is earlier than allowed by our advance reservation rules.","laterMaxAdvance":"This is later than allowed by our advance reservation rules.","notStayIn":"Not stay-in","notCheckIn":"Not check-in","notCheckOut":"Not check-out","past":"Day in the past","checkInDate":"Check-in date","lessThanMinDaysStay":"Less than min days stay","moreThanMaxDaysStay":"More than max days stay","laterThanMaxDate":"Later than max date for current check-in date","rules":"Rules:","tokenizationFailure":"Tokenisation failed: %s","roomsAddedToReservation_singular":"%1$d &times; &ldquo;%2$s&rdquo; has been added to your reservation.","roomsAddedToReservation_plural":"%1$d &times; &ldquo;%2$s&rdquo; have been added to your reservation.","countRoomsSelected_singular":"%s accommodation selected.","countRoomsSelected_plural":"%s accommodations selected.","emptyCouponCode":"Coupon code is empty.","checkInNotValid":"Check-in date is not valid.","checkOutNotValid":"Check-out date is not valid.","selectDates":"Select dates"},"page":{"isCheckoutPage":false,"isSingleRoomTypePage":false,"isSearchResultsPage":false,"isCreateBookingPage":false},"gateways":[],"roomTypeId":0}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://shopy-science.io/wp-content/plugins/motopress-hotel-booking-lite/assets/js/global/index.js?ver=6.2.2' id='mphb-global-js-js'></script>
+<script type='text/javascript' src='https://shopy-science.io/wp-includes/js/dist/vendor/moment.min.js?ver=2.26.0' id='moment-js'></script>
+<script type='text/javascript' id='moment-js-after'>
+moment.updateLocale( 'en_US', {"months":["January","February","March","April","May","June","July","August","September","October","November","December"],"monthsShort":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"weekdaysShort":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"week":{"dow":1},"longDateFormat":{"LT":"H:i","LTS":null,"L":null,"LL":"m\/d\/Y","LLL":"F j, Y g:i a","LLLL":null}} );
+</script>
+<script type='text/javascript' src='https://shopy-science.io/wp-includes/js/dist/date.min.js?ver=b84140e458419d65dfa2492ed2e6745e' id='wp-date-js'></script>
+<script type='text/javascript' id='wp-date-js-after'>
+wp.date.setSettings( {"l10n":{"locale":"en_US","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"monthsShort":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"weekdaysShort":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"meridiem":{"am":"am","pm":"pm","AM":"AM","PM":"PM"},"relative":{"future":"%s from now","past":"%s ago"}},"formats":{"time":"H:i","date":"m\/d\/Y","datetime":"F j, Y g:i a","datetimeAbbreviated":"M j, Y g:i a"},"timezone":{"offset":"0","string":"","abbr":""}} );
+</script>
+<script type='text/javascript' id='mphb-shortcodes-group-availability-calendar-js-js-translations'>
+( function( domain, translations ) {
+	var localeData = translations.locale_data[ domain ] || translations.locale_data.messages;
+	localeData[""].domain = domain;
+	wp.i18n.setLocaleData( localeData, domain );
+} )( "motopress-hotel-booking", { "locale_data": { "messages": { "": {} } } } );
+</script>
+<script type='text/javascript' src='https://shopy-science.io/wp-content/plugins/motopress-hotel-booking-lite/assets/js/shortcodes/group-availability-calendar/index.js?ver=6.2.2' id='mphb-shortcodes-group-availability-calendar-js-js'></script>
+<script type='text/javascript' src='https://shopy-science.io/wp-content/plugins/motopress-hotel-booking-lite/vendors/canjs/can.custom.min.js?ver=6.2.2' id='mphb-canjs-js'></script>
+<script type='text/javascript' src='https://shopy-science.io/wp-content/plugins/motopress-hotel-booking-lite/vendors/kbwood/datepick/jquery.plugin.min.js?ver=6.2.2' id='mphb-kbwood-plugin-js'></script>
+<script type='text/javascript' src='https://shopy-science.io/wp-content/plugins/motopress-hotel-booking-lite/vendors/kbwood/datepick/jquery.datepick.min.js?ver=6.2.2' id='mphb-kbwood-datepick-js'></script>
+<script type='text/javascript' src='https://shopy-science.io/wp-content/plugins/motopress-hotel-booking-lite/assets/js/public/mphb.min.js?ver=6.2.2' id='mphb-js'></script>
+<script type='text/javascript' src='https://shopy-science.io/wp-content/plugins/revslider/public/assets/js/rbtools.min.js?ver=6.5.18' defer async id='tp-tools-js'></script>
+<script type='text/javascript' src='https://shopy-science.io/wp-content/plugins/revslider/public/assets/js/rs6.min.js?ver=6.5.19' defer async id='revmin-js'></script>
+<script type='text/javascript' id='give-donation-summary-script-frontend-js-extra'>
+/* <![CDATA[ */
+var GiveDonationSummaryData = {"currencyPrecisionLookup":{"USD":2,"EUR":2,"GBP":2,"AUD":2,"BRL":2,"CAD":2,"CZK":2,"DKK":2,"HKD":2,"HUF":2,"ILS":2,"JPY":0,"MYR":2,"MXN":2,"MAD":2,"NZD":2,"NOK":2,"PHP":2,"PLN":2,"SGD":2,"KRW":0,"ZAR":2,"SEK":2,"CHF":2,"TWD":2,"THB":2,"INR":2,"TRY":2,"IRR":2,"RUB":2,"AED":2,"AMD":2,"ANG":2,"ARS":2,"AWG":2,"BAM":2,"BDT":2,"BHD":3,"BMD":2,"BND":2,"BOB":2,"BSD":2,"BWP":2,"BZD":2,"CLP":0,"CNY":2,"COP":2,"CRC":2,"CUC":2,"CUP":2,"DOP":2,"EGP":2,"GIP":2,"GTQ":2,"HNL":2,"HRK":2,"IDR":2,"ISK":0,"JMD":2,"JOD":2,"KES":2,"KWD":2,"KYD":2,"MKD":2,"NPR":2,"OMR":3,"PEN":2,"PKR":2,"RON":2,"SAR":2,"SZL":2,"TOP":2,"TZS":2,"UAH":2,"UYU":2,"VEF":2,"XCD":2,"AFN":2,"ALL":2,"AOA":2,"AZN":2,"BBD":2,"BGN":2,"BIF":0,"BTC":8,"BTN":1,"BYR":2,"BYN":2,"CDF":2,"CVE":2,"DJF":0,"DZD":2,"ERN":2,"ETB":2,"FJD":2,"FKP":2,"GEL":2,"GGP":2,"GHS":2,"GMD":2,"GNF":0,"GYD":2,"HTG":2,"IMP":2,"IQD":2,"IRT":2,"JEP":2,"KGS":2,"KHR":0,"KMF":2,"KPW":0,"KZT":2,"LAK":0,"LBP":2,"LKR":0,"LRD":2,"LSL":2,"LYD":3,"MDL":2,"MGA":0,"MMK":2,"MNT":2,"MOP":2,"MRO":2,"MUR":2,"MVR":1,"MWK":2,"MZN":0,"NAD":2,"NGN":2,"NIO":2,"PAB":2,"PGK":2,"PRB":2,"PYG":2,"QAR":2,"RSD":2,"RWF":2,"SBD":2,"SCR":2,"SDG":2,"SHP":2,"SLL":2,"SOS":2,"SRD":2,"SSP":2,"STD":2,"SYP":2,"TJS":2,"TMT":2,"TND":3,"TTD":2,"UGX":2,"UZS":2,"VND":1,"VUV":0,"WST":2,"XAF":2,"XOF":2,"XPF":2,"YER":2,"ZMW":2},"recurringLabelLookup":[]};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://shopy-science.io/wp-content/plugins/give/assets/dist/js/give-donation-summary.js?ver=2.20.0' id='give-donation-summary-script-frontend-js'></script>
+<script type='text/javascript' src='https://shopy-science.io/wp-includes/js/hoverIntent.min.js?ver=1.8.1' id='hoverIntent-js'></script>
+<script type='text/javascript' id='megamenu-js-extra'>
+/* <![CDATA[ */
+var megamenu = {"timeout":"300","interval":"100"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://shopy-science.io/wp-content/plugins/megamenu/js/maxmegamenu.js?ver=2.9.3' id='megamenu-js'></script>
+<script type='text/javascript' src='https://shopy-science.io/wp-includes/js/wp-embed.min.js?ver=5.6.17' id='wp-embed-js'></script>
+<script type='text/javascript' id='wpb_composer_front_js-js-extra'>
+/* <![CDATA[ */
+var vcData = {"currentTheme":{"slug":"dt-the7"}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://shopy-science.io/wp-content/plugins/js_composer/assets/js/dist/js_composer_front.min.js?ver=6.9.0' id='wpb_composer_front_js-js'></script>
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="pswp__bg"></div>
+	<div class="pswp__scroll-wrap">
+		<div class="pswp__container">
+			<div class="pswp__item"></div>
+			<div class="pswp__item"></div>
+			<div class="pswp__item"></div>
+		</div>
+		<div class="pswp__ui pswp__ui--hidden">
+			<div class="pswp__top-bar">
+				<div class="pswp__counter"></div>
+				<button class="pswp__button pswp__button--close" title="Close (Esc)" aria-label="Close (Esc)"></button>
+				<button class="pswp__button pswp__button--share" title="Share" aria-label="Share"></button>
+				<button class="pswp__button pswp__button--fs" title="Toggle fullscreen" aria-label="Toggle fullscreen"></button>
+				<button class="pswp__button pswp__button--zoom" title="Zoom in/out" aria-label="Zoom in/out"></button>
+				<div class="pswp__preloader">
+					<div class="pswp__preloader__icn">
+						<div class="pswp__preloader__cut">
+							<div class="pswp__preloader__donut"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+				<div class="pswp__share-tooltip"></div> 
+			</div>
+			<button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)" aria-label="Previous (arrow left)">
+			</button>
+			<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)" aria-label="Next (arrow right)">
+			</button>
+			<div class="pswp__caption">
+				<div class="pswp__caption__center"></div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
