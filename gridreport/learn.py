@@ -67,7 +67,14 @@ def learn_command(args) -> int:
                 # urljoin has to be inside the guard: the href is page-supplied,
                 # and a malformed one ('http://[::1/logo.png') raises out of
                 # urlsplit before download_binary ever gets a say
-                absolute_logo_url = urllib.parse.urljoin(args.url, logo_url)
+                #
+                # join against base_origin, not args.url: base_origin is the
+                # post-redirect origin fetch_site actually landed on, and
+                # download_binary checks the resolved URL against that same
+                # base_origin - joining against the pre-redirect args.url here
+                # produced the same www-redirect origin mismatch already fixed
+                # for stylesheets, just on this sibling call site
+                absolute_logo_url = urllib.parse.urljoin(base_origin, logo_url)
                 logo_path = download_binary(absolute_logo_url, base_origin)
             except (FetchError, ValueError) as exc:
                 print(f"Warning: found a logo URL but couldn't download it ({exc}); continuing without a logo.", file=sys.stderr)

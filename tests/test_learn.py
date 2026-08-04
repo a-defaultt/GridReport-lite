@@ -115,3 +115,34 @@ def test_a_malformed_logo_href_continues_without_a_logo(monkeypatch, tmp_path, c
     # the template is still written, just logo-less
     assert json.loads((tmp_path / "badlogo" / "meta.json").read_text())["logo_file"] is None
     assert not list((tmp_path / "badlogo").glob("logo.*"))
+
+
+def test_a_root_relative_logo_href_resolves_against_the_post_redirect_origin(monkeypatch, tmp_path):
+    # same root cause as the stylesheet fix in fetch.py: fetch_site's base_origin
+    # is the post-redirect origin (e.g. manucurist.com -> www.manucurist.com), but
+    # the logo href was being joined against the pre-redirect args.url instead -
+    # so a root-relative href resolved to the wrong host and download_binary
+    # rejected it as cross-origin against base_origin
+    monkeypatch.setattr("gridreport.learn.TEMPLATES_ROOT", tmp_path)
+    html = (
+        '<img src="/logo.png" alt="logo">'
+        + '<div style="color:#004E42">a</div>' * 5
+        + '<div style="color:#FD7BDF">b</div>' * 3
+    )
+    # args.url is pre-redirect; base_origin is where fetch_site actually landed
+    monkeypatch.setattr(
+        "gridreport.learn.fetch_site",
+        lambda url: (html, [], "https://www.manucurist.com"),
+    )
+    seen_urls = []
+
+    def fake_download_binary(url, origin):
+        seen_urls.append(url)
+        fake_logo = tmp_path / "downloaded_logo.png"
+        fake_logo.write_bytes(b"fake-png-bytes")
+        return fake_logo
+
+    monkeypatch.setattr("gridreport.learn.download_binary", fake_download_binary)
+
+    assert learn_command(FakeArgs(url="https://manucurist.com", name="redirected")) == 0
+    assert seen_urls == ["https://www.manucurist.com/logo.png"]
